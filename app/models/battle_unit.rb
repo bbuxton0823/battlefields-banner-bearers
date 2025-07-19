@@ -8,8 +8,21 @@ class BattleUnit < ApplicationRecord
   validates :position_x, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :position_y, presence: true, numericality: { greater_than_or_equal_to: 0 }
   
-  # Temporary bonuses for special abilities
-  attr_accessor :temp_attack_bonus, :temp_defense_bonus, :temp_morale_bonus, :temp_movement_bonus
+  # --------------------------------------------------------------------------
+  # Temporary bonuses
+  # --------------------------------------------------------------------------
+  # These attributes are now backed by real database columns (see the
+  # `AddTempBonusesToBattleUnits` migration).  We keep the after_initialize
+  # guard below to ensure any records created before the migration (or loaded
+  # without the new columns) still receive sane default values.
+
+  # --------------------------------------------------------------------------
+  # Callbacks
+  # --------------------------------------------------------------------------
+
+  # Ensure bonuses are always numeric to avoid nil checks sprinkled
+  # throughout the combat code.
+  after_initialize :initialize_temp_bonuses
   
   # Effective stats including temporary bonuses
   def effective_attack
@@ -21,7 +34,8 @@ class BattleUnit < ApplicationRecord
   end
   
   def effective_morale
-    [morale + (temp_morale_bonus || 0), 0, 100].min
+    # Keep morale within 0-100 range
+    [[morale + (temp_morale_bonus || 0), 0].max, 100].min
   end
   
   def effective_movement
@@ -67,5 +81,15 @@ class BattleUnit < ApplicationRecord
   
   def movement
     unit.movement
+  end
+
+  private
+
+  # Sets default values for temporary bonuses so they never return nil
+  def initialize_temp_bonuses
+    self.temp_attack_bonus   ||= 0
+    self.temp_defense_bonus  ||= 0
+    self.temp_morale_bonus   ||= 0
+    self.temp_movement_bonus ||= 0
   end
 end

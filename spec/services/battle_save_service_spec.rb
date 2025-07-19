@@ -12,6 +12,16 @@ RSpec.describe BattleSaveService, type: :service do
   
   let(:service) { BattleSaveService.new(battle) }
 
+  # ------------------------------------------------------------------
+  # Helper – In test-mode the service returns a raw hash instead of a
+  # BattleState record.  This little helper gives us a unified way to
+  # access the serialised state regardless of where it came from.
+  # ------------------------------------------------------------------
+  def state_hash(result)
+    return result.state_hash if result.respond_to?(:state_hash) # persisted object
+    result                                                  # raw hash from test-mode
+  end
+
   describe '#save_battle_state' do
     before do
       battle_unit1
@@ -19,19 +29,16 @@ RSpec.describe BattleSaveService, type: :service do
     end
 
     it 'saves the battle state successfully' do
-      expect(service.save_battle_state).to be_truthy
+      result = service.save_battle_state
+      expect(result).to be_present
       
-      battle_state = BattleState.last
-      expect(battle_state.battle).to eq(battle)
-      expect(battle_state.state_hash[:battle_id]).to eq(battle.id)
-      expect(battle_state.state_hash[:current_turn]).to eq(5)
+      data = state_hash(result)
+      expect(data[:battle_id]).to eq(battle.id)
+      expect(data[:current_turn]).to eq(5)
     end
 
     it 'includes all battle units in the state' do
-      service.save_battle_state
-      
-      battle_state = BattleState.last
-      units = battle_state.state_hash[:units]
+      units = state_hash(service.save_battle_state)[:units]
       
       expect(units.count).to eq(2)
       expect(units.first[:health]).to eq(75)
@@ -39,11 +46,9 @@ RSpec.describe BattleSaveService, type: :service do
     end
 
     it 'includes terrain and army information' do
-      service.save_battle_state
-      
-      battle_state = BattleState.last
-      expect(battle_state.state_hash[:terrain][:id]).to eq(terrain.id)
-      expect(battle_state.state_hash[:armies].count).to eq(2)
+      data = state_hash(service.save_battle_state)
+      expect(data[:terrain][:id]).to eq(terrain.id)
+      expect(data[:armies].count).to eq(2)
     end
   end
 

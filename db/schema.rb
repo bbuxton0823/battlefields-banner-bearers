@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_17_172908) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_19_144512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -107,7 +107,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_17_172908) do
     t.integer "cold_penalty"
     t.integer "attack_modifier"
     t.integer "defense_modifier"
+    t.bigint "battle_id"
     t.index ["army_id"], name: "index_battlefield_effects_on_army_id"
+    t.index ["battle_id"], name: "index_battlefield_effects_on_battle_id"
     t.index ["terrain_id"], name: "index_battlefield_effects_on_terrain_id"
   end
 
@@ -165,6 +167,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_17_172908) do
   add_foreign_key "battle_units", "battles"
   add_foreign_key "battle_units", "units"
   add_foreign_key "battlefield_effects", "armies"
+  add_foreign_key "battlefield_effects", "battles"
   add_foreign_key "battlefield_effects", "terrains"
   add_foreign_key "battles", "terrains"
   add_foreign_key "units", "armies"
