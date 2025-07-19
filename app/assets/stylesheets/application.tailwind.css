@@ -1,0 +1,246 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Battlefield Styles */
+.battlefield {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 2px;
+  background-color: #8B4513;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.battlefield-cell {
+  aspect-ratio: 1;
+  background-color: #DEB887;
+  border: 1px solid #8B4513;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.battlefield-cell:hover {
+  background-color: #F4A460;
+  transform: scale(1.05);
+}
+
+.battlefield-cell.terrain-hill {
+  background-color: #D2691E;
+}
+
+.battlefield-cell.terrain-forest {
+  background-color: #228B22;
+}
+
+.battlefield-cell.terrain-water {
+  background-color: #4682B4;
+}
+
+.battlefield-cell.terrain-road {
+  background-color: #696969;
+}
+
+.unit {
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+  color: white;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.unit:hover {
+  transform: scale(1.1);
+}
+
+.unit.selected {
+  box-shadow: 0 0 10px 3px #FFD700;
+}
+
+.unit.army-1 {
+  background-color: #DC143C;
+}
+
+.unit.army-2 {
+  background-color: #0000CD;
+}
+
+.unit-health-bar,
+.unit-morale-bar {
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  height: 3px;
+  transition: width 0.3s ease;
+}
+
+.unit-health-bar {
+  background-color: #32CD32;
+}
+
+.unit-morale-bar {
+  background-color: #FFD700;
+  bottom: -9px;
+}
+
+/* Battle Controls */
+.battle-controls {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.battle-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.battle-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.battle-button.attack {
+  background-color: #DC143C;
+  color: white;
+}
+
+.battle-button.defend {
+  background-color: #228B22;
+  color: white;
+}
+
+.battle-button.retreat {
+  background-color: #FF8C00;
+  color: white;
+}
+
+/* Battle Log */
+.battle-log {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.battle-log-entry {
+  padding: 5px;
+  margin: 2px 0;
+  border-left: 3px solid #007bff;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.battle-log-entry:nth-child(even) {
+  background-color: #f0f0f0;
+}
+
+/* Unit Details Panel */
+.unit-details {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.unit-details h3 {
+  margin-top: 0;
+  color: #495057;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .battlefield {
+    grid-template-columns: repeat(8, 1fr);
+    padding: 10px;
+  }
+  
+  .battle-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .unit {
+    font-size: 10px;
+  }
+}
+
+/* Educational Content Styles */
+.educational-content {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.educational-content h4 {
+  color: #856404;
+  margin-top: 0;
+}
+
+/* Statistics Display */
+.statistics-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.stat-card {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+}
+
+.stat-card h5 {
+  margin-top: 0;
+  color: #495057;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+}

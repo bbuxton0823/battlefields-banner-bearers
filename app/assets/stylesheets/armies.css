@@ -1,0 +1,112 @@
+/* Army Cards Enhanced Styles */
+
+/* Animation Keyframes */
+@keyframes fadeInStagger {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Army Card Styles */
+.army-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.army-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Army-specific Backgrounds */
+.army-background-sun-tzus-warring-states-army {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.9) 0%, rgba(245, 158, 11, 0.6) 50%, rgba(17, 24, 39, 0.9) 100%);
+}
+
+.army-background-roman-legion {
+  background: linear-gradient(135deg, rgba(124, 45, 18, 0.9) 0%, rgba(220, 38, 38, 0.8) 50%, rgba(251, 191, 36, 0.7) 100%);
+}
+
+.army-background-mongol-horde {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(120, 113, 108, 0.8) 50%, rgba(30, 41, 59, 0.9) 100%);
+}
+
+.army-background-english-longbowmen {
+  background: linear-gradient(135deg, rgba(20, 83, 45, 0.9) 0%, rgba(22, 163, 74, 0.8) 50%, rgba(132, 204, 22, 0.7) 100%);
+}
+
+.army-background-viking-longship-raiders {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.9) 0%, rgba(55, 48, 163, 0.8) 50%, rgba(99, 102, 241, 0.7) 100%);
+}
+
+.army-background-ottoman-janissaries {
+  background: linear-gradient(135deg, rgba(124, 45, 18, 0.9) 0%, rgba(234, 88, 12, 0.8) 50%, rgba(251, 191, 36, 0.7) 100%);
+}
+
+.army-background-aztec-eagle-warriors {
+  background: linear-gradient(135deg, rgba(22, 101, 52, 0.9) 0%, rgba(21, 128, 61, 0.8) 50%, rgba(234, 179, 8, 0.7) 100%);
+}
+
+.army-background-soviet-ski-troops {
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.9) 0%, rgba(220, 38, 38, 0.8) 50%, rgba(243, 244, 246, 0.6) 100%);
+}
+
+/* Army Icon Animations */
+.army-icon {
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.army-icon:hover {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+}
+
+/* Commander Card Styles */
+.commander-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.commander-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Commander Portrait Backgrounds */
+.commander-chinese {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.8) 0%, rgba(245, 158, 11, 0.6) 50%, rgba(17, 24, 39, 0.8) 100%);
+}
+
+.commander-mongol {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(120, 113, 108, 0.7) 50%, rgba(75, 85, 99, 0.8) 100%);
+}
+
+.commander-roman {
+  background: linear-gradient(135deg, rgba(124, 45, 18, 0.9) 0%, rgba(220, 38, 38, 0.7) 50%, rgba(251, 191, 36, 0.6) 100%);
+}
+
+.commander-viking {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.9) 0%, rgba(55, 48, 163, 0.7) 50%, rgba(165, 180, 252, 0.6) 100%);
+}
+
+.commander-english {
+  background: linear-gradient(135deg, rgba(20, 83, 45, 0.9) 0%, rgba(22, 163, 74, 0.7) 50%, rgba(132, 204, 22, 0.6) 100%);
+}
+
+.commander-ottoman {
+  background: linear-gradient(135deg, rgba(124, 45, 18, 0.9) 0%, rgba(234, 88, 12, 0.7) 50%, rgba(251, 191, 36, 0.6) 100%);
+}
+
+.commander-aztec {
+  background: linear-gradient(135deg, rgba(22, 101, 52, 0.9) 0%, rgba(21, 128, 61, 0.7) 50%, rgba(234, 179, 8, 0.6) 100%);
+}
+
+.commander-finnish {
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.9) 0%, rgba(220, 38, 38, 0.7) 50%, rgba(243, 244, 246, 0.5) 100%);
+}
+
+.commander-default {
+  background: linear-gradient(135deg, rgba(75, 85, 99, 0.9) 0%, rgba(107, 114, 128, 0.7) 50%, rgba(156, 163, 175, 0.6) 100%);
+}

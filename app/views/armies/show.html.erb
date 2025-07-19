@@ -1,0 +1,95 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h1 class="text-3xl font-bold text-gray-900 mb-4"><%= @army.name %></h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">Army Details</h2>
+        <p class="text-gray-600 mb-4"><%= @army.description %></p>
+        
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+            <span class="font-medium flex items-center">
+              <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              Era:
+            </span>
+            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-sm"><%= @army.era %></span>
+          </div>
+          
+          <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+            <span class="font-medium flex items-center">
+              <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+              Core Stat:
+            </span>
+            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm"><%= @army.core_stat %></span>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-2">
+            <div class="text-center p-2 bg-red-50 rounded">
+              <div class="text-lg font-bold text-red-600"><%= @army.unique_weapon || '—' %></div>
+              <div class="text-xs text-red-800">Unique Weapon</div>
+            </div>
+            <div class="text-center p-2 bg-blue-50 rounded">
+              <div class="text-lg font-bold text-blue-600"><%= @army.signature_ability || '—' %></div>
+              <div class="text-xs text-blue-800">Signature Ability</div>
+            </div>
+          </div>
+          
+          <div class="text-center p-2 bg-yellow-50 rounded">
+            <div class="text-lg font-bold text-yellow-700"><%= @army.historical_commander || 'Unknown Commander' %></div>
+            <div class="text-xs text-yellow-800">Historical Leader</div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">Units</h2>
+        <% if @army.units.any? %>
+          <div class="space-y-3">
+            <% @army.units.each do |unit| %>
+              <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                <h3 class="font-semibold text-lg mb-1"><%= unit.name %></h3>
+                <p class="text-sm text-gray-600 mb-2"><%= unit.description %></p>
+                <div class="grid grid-cols-4 gap-2 text-center">
+                  <div class="bg-red-50 p-2 rounded">
+                    <div class="text-lg font-bold text-red-600"><%= unit.attack %></div>
+                    <div class="text-xs text-red-800">ATK</div>
+                  </div>
+                  <div class="bg-blue-50 p-2 rounded">
+                    <div class="text-lg font-bold text-blue-600"><%= unit.defense %></div>
+                    <div class="text-xs text-blue-800">DEF</div>
+                  </div>
+                  <div class="bg-green-50 p-2 rounded">
+                    <div class="text-lg font-bold text-green-600"><%= unit.health %></div>
+                    <div class="text-xs text-green-800">HP</div>
+                  </div>
+                  <div class="bg-purple-50 p-2 rounded">
+                    <div class="text-lg font-bold text-purple-600"><%= unit.morale %></div>
+                    <div class="text-xs text-purple-800">MOR</div>
+                  </div>
+                </div>
+                <% if unit.special_abilities.present? %>
+                  <div class="mt-2 text-xs bg-gray-100 p-2 rounded">
+                    <strong>Special:</strong> <%= unit.special_abilities %>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="bg-gray-50 p-4 rounded-lg text-center">
+            <p class="text-gray-500">No units assigned to this army yet.</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    
+    <div class="mt-6">
+      <%= link_to 'Back to Armies', armies_path, class: "bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div id="battle_status" class="bg-white rounded-lg shadow-md p-6 mb-6">
+  <div class="flex justify-between items-center">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-800">Battle Status</h2>
+      <p class="text-gray-600">Turn <%= @battle.current_turn %> of <%= @battle.max_turns %></p>
+    </div>
+    
+    <div class="text-right">
+      <span class="inline-block px-3 py-1 rounded-full text-sm font-medium <%= 
+        case @battle.status
+        when 'setup' then 'bg-yellow-100 text-yellow-800'
+        when 'active' then 'bg-blue-100 text-blue-800'
+        when 'completed' then 'bg-green-100 text-green-800'
+        else 'bg-gray-100 text-gray-800'
+        end
+      %>">
+        <%= @battle.status.humanize %>
+      </span>
+    </div>
+  </div>
+
+  <% if victory_result %>
+    <div class="mt-4 p-4 rounded-lg <%= victory_result[:winner] ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200' %> border">
+      <h3 class="text-lg font-semibold <%= victory_result[:winner] ? 'text-green-800' : 'text-gray-800' %>">
+        <%= victory_result[:message] %>
+      </h3>
+      
+      <% if victory_result[:winner] %>
+        <p class="text-sm text-green-700 mt-2">
+          Victory achieved through superior tactics and adaptation to battlefield conditions.
+        </p>
+      <% else %>
+        <p class="text-sm text-gray-700 mt-2">
+          The battle ended without a clear victor, reflecting the challenges of historical warfare.
+        </p>
+      <% end %>
+      
+      <div class="mt-4">
+        <%= link_to "View Battle Summary", battle_path(@battle), class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors" %>
+        <%= link_to "New Battle", new_battle_path, class: "ml-2 inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors" %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="mt-4 grid grid-cols-2 gap-4">
+    <div class="bg-gray-50 p-3 rounded">
+      <h4 class="font-semibold text-sm text-gray-700"><%= @battle.attacking_army&.name %></h4>
+      <p class="text-2xl font-bold text-blue-600">
+        <%= @battle.attacking_army&.units&.where('health > 0')&.count || 0 %>
+      </p>
+      <p class="text-xs text-gray-500">Active Units</p>
+    </div>
+    
+    <div class="bg-gray-50 p-3 rounded">
+      <h4 class="font-semibold text-sm text-gray-700"><%= @battle.defending_army&.name %></h4>
+      <p class="text-2xl font-bold text-red-600">
+        <%= @battle.defending_army&.units&.where('health > 0')&.count || 0 %>
+      </p>
+      <p class="text-xs text-gray-500">Active Units</p>
+    </div>
+  </div>
+</div>

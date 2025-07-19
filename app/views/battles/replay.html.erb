@@ -1,0 +1,68 @@
+<div class="min-h-screen bg-gradient-to-br from-amber-50 to-red-100">
+  <div class="container mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <h1 class="text-3xl font-bold mb-4">📊 Battle Replay: <%= @battle.name %></h1>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div class="bg-gray-50 rounded-lg p-4">
+          <h3 class="font-semibold text-gray-800 mb-2">Battle Summary</h3>
+          <p><strong>Winner:</strong> <%= @battle.winner&.name || "Undecided" %></p>
+          <p><strong>Duration:</strong> <%= @battle.current_turn %> turns</p>
+          <p><strong>Status:</strong> <%= @battle.status.humanize %></p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4">
+          <h3 class="font-semibold text-gray-800 mb-2">Armies</h3>
+          <p><strong>Attacker:</strong> <%= @battle.attacking_army.name %></p>
+          <p><strong>Defender:</strong> <%= @battle.defending_army.name %></p>
+          <p><strong>Terrain:</strong> <%= @battle.terrain.name %></p>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-4">
+          <h3 class="font-semibold text-gray-800 mb-2">Actions</h3>
+          <%= link_to "Back to Battle", play_battle_path(@battle), class: "text-blue-600 hover:underline" %><br>
+          <%= link_to "View Statistics", statistics_battle_path(@battle), class: "text-blue-600 hover:underline" %><br>
+          <%= link_to "All Battles", battles_path, class: "text-blue-600 hover:underline" %>
+        </div>
+      </div>
+
+      <% if @battle.battle_replays.any? %>
+        <div class="space-y-4">
+          <h2 class="text-2xl font-semibold mb-4">Battle Events</h2>
+          
+          <% @battle.battle_replays.order(:turn_number).each do |replay| %>
+            <div class="border rounded-lg p-4 <%= replay.event_type == 'victory' ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200' %>">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h4 class="font-semibold">Turn <%= replay.turn_number %></h4>
+                  <p class="text-sm text-gray-600"><%= replay.description %></p>
+                  
+                  <% if replay.event_data.present? %>
+                    <div class="mt-2 text-sm">
+                      <% replay.event_data.each do |key, value| %>
+                        <span class="inline-block bg-gray-200 rounded px-2 py-1 mr-2">
+                          <%= key.humanize %>: <%= value %>
+                        </span>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+                
+                <div class="text-right">
+                  <span class="text-xs text-gray-500">
+                    <%= replay.created_at.strftime("%H:%M:%S") %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-8">
+          <p class="text-gray-600">No replay data available for this battle.</p>
+          <%= link_to "Back to Battle", play_battle_path(@battle), class: "mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

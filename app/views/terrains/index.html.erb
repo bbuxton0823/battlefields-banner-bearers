@@ -1,0 +1,180 @@
+<div class="min-h-screen bg-gradient-to-br from-green-900 via-emerald-800 to-green-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header Section -->
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-bold text-white mb-4 tracking-tight">
+        <span class="bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent">
+          Battlefield Terrains
+        </span>
+      </h1>
+      <p class="text-xl text-green-200 max-w-2xl mx-auto">
+        Master the geography of warfare. Each terrain presents unique challenges and opportunities for historical commanders.
+      </p>
+    </div>
+
+    <!-- Climate Filter -->
+    <div class="mb-8">
+      <div class="flex justify-center space-x-2 bg-green-800/50 backdrop-blur rounded-full p-2 max-w-2xl mx-auto">
+        <button class="climate-filter px-4 py-2 rounded-full text-sm font-medium transition-all bg-emerald-500 text-white" data-climate="all">
+          All Climates
+        </button>
+        <button class="climate-filter px-4 py-2 rounded-full text-sm font-medium transition-all text-green-200 hover:bg-green-700" data-climate="Temperate">
+          Temperate
+        </button>
+        <button class="climate-filter px-4 py-2 rounded-full text-sm font-medium transition-all text-green-200 hover:bg-green-700" data-climate="Arid">
+          Arid
+        </button>
+        <button class="climate-filter px-4 py-2 rounded-full text-sm font-medium transition-all text-green-200 hover:bg-green-700" data-climate="Tropical">
+          Tropical
+        </button>
+        <button class="climate-filter px-4 py-2 rounded-full text-sm font-medium transition-all text-green-200 hover:bg-green-700" data-climate="Cold">
+          Cold
+        </button>
+      </div>
+    </div>
+
+    <!-- Terrain Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="terrains-grid">
+      <% @terrains.each do |terrain| %>
+        <div class="terrain-card group" data-climate="<%= terrain.climate %>">
+          <div class="bg-green-800/50 backdrop-blur rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-emerald-500/20">
+            <!-- Terrain Image -->
+            <div class="h-48 bg-gradient-to-br from-green-600 to-emerald-700 flex items-center justify-center relative">
+              <div class="text-center">
+                <div class="text-8xl mb-2">
+                  <% if terrain.terrain_type == 'Plains' %>🌾
+                  <% elsif terrain.terrain_type == 'Forest' %>🌲
+                  <% elsif terrain.terrain_type == 'Desert' %>🏜️
+                  <% elsif terrain.terrain_type == 'Mountain' %>⛰️
+                  <% elsif terrain.terrain_type == 'Swamp' %>🪷
+                  <% elsif terrain.terrain_type == 'Urban' %>🏙️
+                  <% else %>🌍
+                  <% end %>
+                </div>
+                <div class="text-green-100 text-sm font-bold"><%= terrain.terrain_type %></div>
+              </div>
+              
+              <!-- Climate Badge -->
+              <div class="absolute top-3 right-3">
+                <span class="px-3 py-1 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-xs font-bold rounded-full">
+                  <%= terrain.climate %>
+                </span>
+              </div>
+            </div>
+
+            <!-- Card Content -->
+            <div class="p-6">
+              <!-- Terrain Name & Type -->
+              <h3 class="text-xl font-bold text-white mb-2"><%= terrain.name %></h3>
+              
+              <!-- Terrain Modifiers -->
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="text-center">
+                  <div class="text-emerald-400 font-bold text-lg"><%= terrain.mobility_modifier || 0 %></div>
+                  <div class="text-green-300 text-xs">Mobility</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-blue-400 font-bold text-lg"><%= terrain.visibility || 0 %></div>
+                  <div class="text-green-300 text-xs">Visibility</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-orange-400 font-bold text-lg"><%= terrain.heat_stress || 0 %></div>
+                  <div class="text-green-300 text-xs">Heat Stress</div>
+                </div>
+                <div class="text-center">
+                  <div class="text-red-400 font-bold text-lg"><%= terrain.disease_risk || 0 %></div>
+                  <div class="text-green-300 text-xs">Disease Risk</div>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <p class="text-green-200 text-sm mb-4 line-clamp-3"><%= terrain.description %></p>
+
+              <!-- Historical Context -->
+              <div class="bg-green-700/50 rounded-lg p-3 mb-4">
+                <div class="text-green-100 text-xs font-medium mb-1">Historical Significance</div>
+                <div class="text-green-200 text-xs line-clamp-2"><%= terrain.historical_significance %></div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex space-x-2">
+                <%= link_to terrain_path(terrain), class: "flex-1 text-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 text-sm" do %>
+                  Explore Terrain
+                <% end %>
+                <%= link_to terrain_path(terrain), class: "flex-1 text-center px-4 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-all duration-200 text-sm" do %>
+                  Learn More
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Learning Progress -->
+    <div class="mt-12 bg-green-800/50 backdrop-blur rounded-2xl p-6">
+      <h3 class="text-xl font-bold text-white mb-4 text-center">🌍 Geographic Mastery</h3>
+      <div class="flex justify-center space-x-8 text-center">
+        <div>
+          <div class="text-3xl font-bold text-emerald-400"><%= @terrains.count %></div>
+          <div class="text-green-200 text-sm">Terrains Mapped</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-blue-400"><%= @terrains.map(&:climate).uniq.count %></div>
+          <div class="text-green-200 text-sm">Climates Explored</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-teal-400"><%= @terrains.map(&:terrain_type).uniq.count %></div>
+          <div class="text-green-200 text-sm">Types Discovered</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Climate filtering functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const filters = document.querySelectorAll('.climate-filter');
+  const cards = document.querySelectorAll('.terrain-card');
+  
+  filters.forEach(filter => {
+    filter.addEventListener('click', function() {
+      const selectedClimate = this.dataset.climate;
+      
+      // Update active filter
+      filters.forEach(f => {
+        f.classList.remove('bg-emerald-500', 'text-white');
+        f.classList.add('text-green-200', 'hover:bg-green-700');
+      });
+      this.classList.add('bg-emerald-500', 'text-white');
+      this.classList.remove('text-green-200', 'hover:bg-green-700');
+      
+      // Filter cards
+      cards.forEach(card => {
+        if (selectedClimate === 'all' || card.dataset.climate === selectedClimate) {
+          card.style.display = 'block';
+          card.style.animation = 'fadeIn 0.3s ease-in';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>
+
+<style>
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.terrain-card {
+  transition: all 0.3s ease;
+}
+
+.terrain-card:hover {
+  transform: translateY(-4px);
+}
+</style>

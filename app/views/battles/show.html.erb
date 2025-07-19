@@ -1,0 +1,220 @@
+<div class="min-h-screen bg-gradient-to-br from-amber-50 to-red-100">
+  <div class="container mx-auto px-4 py-8">
+    <!-- Battle Summary Header -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <div class="flex justify-between items-center">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">Battle Summary: <%= @battle.name %></h1>
+          <p class="text-gray-600">
+            <%= @battle.attacking_army.name %> vs <%= @battle.defending_army.name %> • 
+            <%= @battle.terrain.name %> • 
+            <%= @battle.created_at.strftime("%B %d, %Y") %>
+          </p>
+        </div>
+        <div class="text-right">
+          <div class="text-sm text-gray-500">Final Status</div>
+          <div class="text-lg font-semibold <%= @battle.status == 'completed' ? 'text-green-600' : 'text-blue-600' %>">
+            <%= @battle.status.humanize %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Battle Outcome -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+      <!-- Victory Result -->
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <h2 class="text-2xl font-bold mb-4">Battle Outcome</h2>
+          
+          <% if @battle.status == 'completed' %>
+            <% 
+              attacking_survivors = @battle.attacking_army.units.where('health > 0').count
+              defending_survivors = @battle.defending_army.units.where('health > 0').count
+              total_attacking = @battle.attacking_army.units.count
+              total_defending = @battle.defending_army.units.count
+            %>
+            
+            <div class="grid grid-cols-2 gap-6 mb-6">
+              <div class="text-center">
+                <h3 class="text-lg font-semibold text-red-600 mb-2"><%= @battle.attacking_army.name %></h3>
+                <div class="text-3xl font-bold text-gray-800 mb-1"><%= attacking_survivors %>/<%= total_attacking %></div>
+                <div class="text-sm text-gray-600">Units Survived</div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                  <div class="bg-red-600 h-2 rounded-full" style="width: <%= (attacking_survivors.to_f / total_attacking * 100).round %>%"></div>
+                </div>
+              </div>
+              
+              <div class="text-center">
+                <h3 class="text-lg font-semibold text-blue-600 mb-2"><%= @battle.defending_army.name %></h3>
+                <div class="text-3xl font-bold text-gray-800 mb-1"><%= defending_survivors %>/<%= total_defending %></div>
+                <div class="text-sm text-gray-600">Units Survived</div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                  <div class="bg-blue-600 h-2 rounded-full" style="width: <%= (defending_survivors.to_f / total_defending * 100).round %>%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t pt-4">
+              <h3 class="text-lg font-semibold mb-2">Battle Statistics</h3>
+              <div class="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <strong>Duration:</strong> <%= @battle.current_turn %> turns
+                </div>
+                <div>
+                  <strong>Terrain:</strong> <%= @battle.terrain.name %>
+                </div>
+                <div>
+                  <strong>Climate:</strong> <%= @battle.terrain.climate %>
+                </div>
+                <div>
+                  <strong>Final Status:</strong> <%= @battle.status.humanize %>
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <p class="text-gray-600">This battle is currently in progress or has not started.</p>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Terrain Details -->
+      <div>
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <h3 class="text-xl font-semibold mb-4">Battlefield Conditions</h3>
+          <div class="text-center mb-4">
+            <div class="text-4xl mb-2">
+              <% case @battle.terrain.name %>
+              <% when "Mojave Desert" %>
+                🏜️
+              <% when "Tibetan Mountains" %>
+                🏔️
+              <% when "Amazon Rainforest" %>
+                🌳
+              <% when "Siberian Tundra" %>
+                ❄️
+              <% when "English Channel" %>
+                🌊
+              <% end %>
+            </div>
+            <h4 class="font-semibold"><%= @battle.terrain.name %></h4>
+          </div>
+          
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between">
+              <span>Mobility:</span>
+              <span class="<%= @battle.terrain.mobility_modifier >= 0 ? 'text-green-600' : 'text-red-600' %>">
+                <%= @battle.terrain.mobility_modifier >= 0 ? '+' : '' %><%= @battle.terrain.mobility_modifier %>
+              </span>
+            </div>
+            <div class="flex justify-between">
+              <span>Heat Stress:</span>
+              <span class="<%= @battle.terrain.heat_stress == 0 ? 'text-green-600' : 'text-red-600' %>">
+                <%= @battle.terrain.heat_stress %>
+              </span>
+            </div>
+            <div class="flex justify-between">
+              <span>Visibility:</span>
+              <span><%= @battle.terrain.visibility %>/5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Unit Details -->
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+      <h2 class="text-2xl font-bold mb-4">Unit Performance</h2>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Attacking Army Units -->
+        <div>
+          <h3 class="text-lg font-semibold text-red-600 mb-3"><%= @battle.attacking_army.name %></h3>
+          <div class="space-y-2">
+            <% @battle.attacking_army.units.order(:name).each do |unit| %>
+              <div class="border rounded-lg p-3 <%= unit.health > 0 ? 'border-gray-200' : 'border-red-200 bg-red-50' %>">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <div class="font-medium"><%= unit.name %></div>
+                    <div class="text-sm text-gray-600"><%= unit.unit_type %></div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-sm font-medium <%= unit.health > 50 ? 'text-green-600' : unit.health > 0 ? 'text-yellow-600' : 'text-red-600' %>">
+                      <%= unit.health > 0 ? "HP: #{unit.health}/100" : "Defeated" %>
+                    </div>
+                    <% if unit.health > 0 %>
+                      <div class="w-16 h-2 bg-gray-200 rounded-full mt-1">
+                        <div class="h-2 rounded-full <%= unit.health > 50 ? 'bg-green-500' : 'bg-yellow-500' %>" 
+                             style="width: <%= unit.health %>%"></div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <!-- Defending Army Units -->
+        <div>
+          <h3 class="text-lg font-semibold text-blue-600 mb-3"><%= @battle.defending_army.name %></h3>
+          <div class="space-y-2">
+            <% @battle.defending_army.units.order(:name).each do |unit| %>
+              <div class="border rounded-lg p-3 <%= unit.health > 0 ? 'border-gray-200' : 'border-red-200 bg-red-50' %>">
+                <div class="flex justify-between items-center">
+                  <div>
+                    <div class="font-medium"><%= unit.name %></div>
+                    <div class="text-sm text-gray-600"><%= unit.unit_type %></div>
+                  </div>
+                  <div class="text-right">
+                    <div class="text-sm font-medium <%= unit.health > 50 ? 'text-green-600' : unit.health > 0 ? 'text-yellow-600' : 'text-red-600' %>">
+                      <%= unit.health > 0 ? "HP: #{unit.health}/100" : "Defeated" %>
+                    </div>
+                    <% if unit.health > 0 %>
+                      <div class="w-16 h-2 bg-gray-200 rounded-full mt-1">
+                        <div class="h-2 rounded-full <%= unit.health > 50 ? 'bg-green-500' : 'bg-yellow-500' %>" 
+                             style="width: <%= unit.health %>%"></div>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historical Context -->
+    <div class="bg-white rounded-lg shadow-lg p-6">
+      <h2 class="text-2xl font-bold mb-4">Historical Context</h2>
+      <div class="prose max-w-none">
+        <p class="text-gray-700">
+          This battle simulation is based on historical conflicts where <%= @battle.attacking_army.name %> 
+          faced <%= @battle.defending_army.name %> in <%= @battle.terrain.name %>. The outcome reflects 
+          the challenges of warfare in <%= @battle.terrain.climate %> conditions, where factors like 
+          <%= @battle.terrain.description.downcase %> played crucial roles in determining the battle's result.
+        </p>
+        
+        <div class="mt-4 p-4 bg-blue-50 rounded-lg">
+          <h3 class="font-semibold text-blue-800 mb-2">Learning Objectives</h3>
+          <ul class="text-sm text-blue-700 space-y-1">
+            <li>• Understand how terrain affects military tactics and unit effectiveness</li>
+            <li>• Analyze the impact of environmental conditions on battle outcomes</li>
+            <li>• Compare historical military strategies with simulated results</li>
+            <li>• Evaluate the role of unit composition in determining victory</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="mt-6 flex justify-center space-x-4">
+      <%= link_to "← Back to Battles", battles_path, class: "px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors" %>
+      <% if @battle.status != 'completed' %>
+        <%= link_to "Continue Battle", play_battle_path(@battle), class: "px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors" %>
+      <% end %>
+      <%= link_to "New Battle", new_battle_path, class: "px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors" %>
+    </div>
+  </div>
+</div>

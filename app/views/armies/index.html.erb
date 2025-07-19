@@ -1,0 +1,188 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4 py-8">
+    
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Historical Armies</h1>
+      <p class="text-lg text-gray-600">Command legendary forces across history</p>
+    </div>
+
+    <!-- Era Filter -->
+    <div class="mb-8">
+      <div class="flex justify-center space-x-4 bg-white rounded-lg p-4 shadow">
+        <button class="era-filter px-4 py-2 rounded bg-blue-500 text-white font-medium" data-era="all">
+          All Eras
+        </button>
+        <button class="era-filter px-4 py-2 rounded bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-era="Ancient">
+          Ancient
+        </button>
+        <button class="era-filter px-4 py-2 rounded bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-era="Medieval">
+          Medieval
+        </button>
+        <button class="era-filter px-4 py-2 rounded bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-era="Renaissance">
+          Renaissance
+        </button>
+        <button class="era-filter px-4 py-2 rounded bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-era="Modern">
+          Modern
+        </button>
+      </div>
+    </div>
+
+    <!-- Army Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" id="armies-grid">
+      <% @armies.each do |army| %>
+        <div class="army-card bg-white rounded-lg shadow-md p-6 border border-gray-200" data-era="<%= army.era %>">
+          
+          <!-- Army Name -->
+          <h3 class="text-xl font-bold text-gray-900 mb-2"><%= army.name %></h3>
+          
+          <!-- Era -->
+          <div class="text-sm text-blue-600 font-medium mb-3">
+            <%= army.era %>
+          </div>
+          
+          <!-- Core Stats -->
+          <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="text-center bg-gray-50 rounded p-3">
+              <div class="font-semibold text-gray-900"><%= army.core_stat || 'Balanced' %></div>
+              <div class="text-xs text-gray-500">Core Strength</div>
+            </div>
+            <div class="text-center bg-gray-50 rounded p-3">
+              <div class="font-semibold text-gray-900"><%= army.signature_ability&.split(' ')&.first || 'Special' %></div>
+              <div class="text-xs text-gray-500">Signature Ability</div>
+            </div>
+          </div>
+          
+          <!-- Description -->
+          <p class="text-gray-700 text-sm mb-4 leading-relaxed">
+            <%= army.description&.truncate(150) %>
+          </p>
+          
+          <!-- Historical Commander -->
+          <div class="bg-blue-50 rounded p-3 mb-4">
+            <div class="text-xs font-medium text-blue-800 mb-1">Historical Commander</div>
+            <div class="text-sm text-blue-900"><%= army.historical_commander || 'Various Leaders' %></div>
+          </div>
+          
+          <!-- Factual Basis -->
+          <div class="bg-green-50 rounded p-3 mb-4">
+            <div class="text-xs font-medium text-green-800 mb-1">Historical Context</div>
+            <div class="text-sm text-green-900 leading-relaxed">
+              <%= army.factual_basis&.truncate(100) %>
+            </div>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="flex space-x-3">
+            <%= link_to army_path(army), class: "flex-1 text-center px-4 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700" do %>
+              Command Army
+            <% end %>
+            <button class="flex-1 px-4 py-2 bg-gray-600 text-white font-medium rounded hover:bg-gray-700" 
+                    onclick="alert('Historical Details: <%= army.factual_basis&.truncate(200)&.gsub("'", "\\'") %>')">
+              Learn More
+            </button>
+          </div>
+          
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Commanders Section -->
+    <div class="mt-16">
+      <h2 class="text-3xl font-bold text-gray-900 text-center mb-8">Historical Commanders</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <% @armies.each do |army| %>
+          <% 
+            commander_data = case army.historical_commander
+              when 'Sun Tzu' then { name: 'Sun Tzu', title: 'Master of Strategy', years: 'c. 544-496 BCE', quote: 'All warfare is based on deception' }
+              when 'Genghis Khan' then { name: 'Genghis Khan', title: 'Great Khan', years: 'c. 1162-1227', quote: 'I am the punishment of God' }
+              when 'Julius Caesar' then { name: 'Julius Caesar', title: 'Imperator of Rome', years: '100-44 BCE', quote: 'Veni, vidi, vici' }
+              when 'Ragnar Lothbrok' then { name: 'Ragnar Lothbrok', title: 'Viking King', years: 'c. 795-865', quote: 'Power is revealed when challenged' }
+              when 'King Edward III' then { name: 'Edward III', title: 'King of England', years: '1312-1377', quote: 'Honi soit qui mal y pense' }
+              when 'Sultan Mehmed II' then { name: 'Mehmed II', title: 'The Conqueror', years: '1432-1481', quote: 'Either I conquer Constantinople...' }
+              when 'Moctezuma II' then { name: 'Moctezuma II', title: 'Aztec Emperor', years: 'c. 1466-1520', quote: 'We came to build, not destroy' }
+              when 'Simo Häyhä' then { name: 'Simo Häyhä', title: 'The White Death', years: '1905-2002', quote: 'I did what I was told' }
+              else { name: army.historical_commander || 'Unknown', title: 'Military Leader', years: 'Unknown', quote: 'Victory through courage' }
+            end
+          %>
+          
+          <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200">
+            <!-- Commander Name -->
+            <h4 class="font-bold text-gray-900 mb-1"><%= commander_data[:name] %></h4>
+            <p class="text-sm text-blue-600 font-medium mb-1"><%= commander_data[:title] %></p>
+            <p class="text-xs text-gray-500 mb-3"><%= commander_data[:years] %></p>
+            
+            <!-- Army Connection -->
+            <div class="bg-gray-50 rounded p-2 mb-3">
+              <div class="text-xs text-gray-600 mb-1">Led Army:</div>
+              <div class="text-sm font-medium text-gray-900"><%= army.name %></div>
+            </div>
+            
+            <!-- Famous Quote -->
+            <div class="bg-yellow-50 rounded p-2 mb-3">
+              <div class="text-xs text-yellow-800 mb-1">Famous Quote:</div>
+              <div class="text-sm text-yellow-900 italic">"<%= commander_data[:quote] %>"</div>
+            </div>
+            
+            <!-- Biography Button -->
+            <button class="w-full px-3 py-2 bg-green-600 text-white font-medium rounded text-sm hover:bg-green-700"
+                    onclick="alert('<%= commander_data[:name] %> (<%= commander_data[:years] %>): &quot;<%= commander_data[:quote] %>&quot; - <%= army.factual_basis&.truncate(150)&.gsub("'", "\\'") %>')">
+              View Biography
+            </button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Stats Summary -->
+    <div class="mt-12 bg-white rounded-lg shadow-md p-6">
+      <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Military Collection</h3>
+      <div class="grid grid-cols-3 gap-8 text-center">
+        <div>
+          <div class="text-3xl font-bold text-blue-600"><%= @armies.count %></div>
+          <div class="text-sm text-gray-600">Total Armies</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-green-600"><%= @armies.map(&:era).uniq.count %></div>
+          <div class="text-sm text-gray-600">Historical Eras</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-purple-600"><%= @armies.count %></div>
+          <div class="text-sm text-gray-600">Legendary Commanders</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const filters = document.querySelectorAll('.era-filter');
+  const cards = document.querySelectorAll('.army-card');
+  
+  filters.forEach(filter => {
+    filter.addEventListener('click', function() {
+      const selectedEra = this.dataset.era;
+      
+      // Update filter appearance
+      filters.forEach(f => {
+        f.classList.remove('bg-blue-500', 'text-white');
+        f.classList.add('bg-gray-200', 'text-gray-700');
+      });
+      this.classList.add('bg-blue-500', 'text-white');
+      this.classList.remove('bg-gray-200', 'text-gray-700');
+      
+      // Filter cards
+      cards.forEach(card => {
+        if (selectedEra === 'all' || card.dataset.era.includes(selectedEra)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>

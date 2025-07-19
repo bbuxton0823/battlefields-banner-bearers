@@ -1,0 +1,102 @@
+<div class="min-h-screen bg-gradient-to-br from-amber-50 to-red-100">
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Create New Historical Battle</h1>
+        <p class="text-gray-600">Choose armies and terrain to begin your strategic challenge</p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg p-8">
+        <%= form_with model: @battle, class: "space-y-6" do |form| %>
+          <% if @battle.errors.any? %>
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+              <h3 class="text-red-800 font-semibold mb-2">Please fix these errors:</h3>
+              <ul class="text-red-600 text-sm">
+                <% @battle.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div>
+            <%= form.label :name, "Battle Name", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.text_field :name, 
+                class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+                placeholder: "e.g., Battle of the Mojave Crossroads" %>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <%= form.label :attacking_army_id, "Attacking Army", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= form.select :attacking_army_id, 
+                  options_from_collection_for_select(@armies, :id, :name),
+                  { prompt: "Select attacking army" },
+                  class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            </div>
+
+            <div>
+              <%= form.label :defending_army_id, "Defending Army", class: "block text-sm font-medium text-gray-700 mb-2" %>
+              <%= form.select :defending_army_id, 
+                  options_from_collection_for_select(@armies, :id, :name),
+                  { prompt: "Select defending army" },
+                  class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+            </div>
+          </div>
+
+          <div>
+            <%= form.label :terrain_id, "Battle Terrain", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.select :terrain_id, 
+                options_from_collection_for_select(@terrains, :id, :name),
+                { prompt: "Select terrain" },
+                class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+          </div>
+
+          <div>
+            <%= form.label :max_turns, "Maximum Turns", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.number_field :max_turns, 
+                value: 10,
+                min: 5,
+                max: 50,
+                class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+          </div>
+
+          <div>
+            <%= form.label :victory_conditions, "Victory Conditions", class: "block text-sm font-medium text-gray-700 mb-2" %>
+            <%= form.text_area :victory_conditions, 
+                class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+                rows: 3,
+                placeholder: "e.g., Defeat all enemy units or control the battlefield after 10 turns" %>
+          </div>
+
+          <div class="flex space-x-4">
+            <%= form.submit "Create Battle", class: "bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition duration-200" %>
+            <%= link_to "Cancel", battles_path, class: "bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 transition duration-200" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="mt-8 bg-white rounded-lg shadow-lg p-6">
+        <h3 class="text-lg font-semibold mb-4">💡 Battle Creation Tips</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+          <div>
+            <h4 class="font-medium mb-2">Army Selection</h4>
+            <ul class="space-y-1">
+              <li>• Consider era compatibility</li>
+              <li>• Balance ranged vs melee units</li>
+              <li>• Think about special abilities</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-medium mb-2">Terrain Impact</h4>
+            <ul class="space-y-1">
+              <li>• Deserts penalize heavy armor</li>
+              <li>• Mountains favor ranged units</li>
+              <li>• Jungles reduce visibility</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Battlefields Banner Bearers</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="csrf-param" content="authenticity_token" />
+    <meta name="csrf-token" content="<%= form_authenticity_token %>" />
+    
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application.tailwind", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+      .font-cinzel {
+        font-family: 'Cinzel', serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-slate-900 text-white">
+    <!-- Navigation -->
+    <nav class="bg-slate-800/80 backdrop-blur border-b border-slate-700">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <%= link_to root_path, class: "flex items-center space-x-2" do %>
+              <span class="font-cinzel text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+                Battlefields Banner Bearers
+              </span>
+            <% end %>
+          </div>
+          
+          <div class="hidden md:flex items-center space-x-8">
+            <%= link_to armies_path, class: "text-slate-300 hover:text-white transition-colors px-3 py-2 rounded-md text-sm font-medium" do %>
+              <span class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+                Armies
+              </span>
+            <% end %>
+            
+            <%= link_to terrains_path, class: "text-slate-300 hover:text-white transition-colors px-3 py-2 rounded-md text-sm font-medium" do %>
+              <span class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Terrains
+              </span>
+            <% end %>
+            
+            <%= link_to battles_path, class: "text-slate-300 hover:text-white transition-colors px-3 py-2 rounded-md text-sm font-medium" do %>
+              <span class="flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                Battles
+              </span>
+            <% end %>
+          </div>
+
+          <!-- Learning Journal -->
+          <div class="flex items-center space-x-4">
+            <div class="hidden md:flex items-center space-x-2 bg-slate-700/50 rounded-full px-3 py-1">
+              <span class="text-xs text-slate-300">Journal</span>
+              <span class="text-xs text-slate-300">Learning Progress</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <%= yield %>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-800 border-t border-slate-700 mt-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center">
+          <p class="text-slate-400 text-sm">
+            Battlefields Banner Bearers - Learn history through strategic gameplay
+          </p>
+          <div class="mt-4 flex justify-center space-x-6">
+            <%= link_to "About", "#", class: "text-slate-400 hover:text-white text-sm" %>
+            <%= link_to "Learning Journal", "#", class: "text-slate-400 hover:text-white text-sm" %>
+            <%= link_to "Historical Facts", "#", class: "text-slate-400 hover:text-white text-sm" %>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Learning Journal Modal -->
+    <div id="learning-journal-modal" class="fixed inset-0 bg-black/50 backdrop-blur hidden z-50">
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-slate-800 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+          <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-2xl font-bold text-white">Learning Journal</h3>
+              <button onclick="closeLearningJournal()" class="text-slate-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="space-y-4">
+              <div class="bg-slate-700 rounded-lg p-4">
+                <h4 class="font-bold text-amber-400 mb-2">Armies Discovered</h4>
+                <div class="text-sm text-slate-300">8 legendary forces across 4 historical eras</div>
+              </div>
+              <div class="bg-slate-700 rounded-lg p-4">
+                <h4 class="font-bold text-emerald-400 mb-2">Terrains Mastered</h4>
+                <div class="text-sm text-slate-300">Diverse battlefields from ancient deserts to medieval forests</div>
+              </div>
+              <div class="bg-slate-700 rounded-lg p-4">
+                <h4 class="font-bold text-blue-400 mb-2">Historical Facts Unlocked</h4>
+                <div class="text-sm text-slate-300">Commander bios, tactical insights, and battle outcomes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    function openLearningJournal() {
+      document.getElementById('learning-journal-modal').classList.remove('hidden');
+    }
+    
+    function closeLearningJournal() {
+      document.getElementById('learning-journal-modal').classList.add('hidden');
+    }
+    </script>
+  </body>
+</html>

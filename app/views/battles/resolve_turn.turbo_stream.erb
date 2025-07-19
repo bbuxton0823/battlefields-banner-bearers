@@ -1,0 +1,31 @@
+<%= turbo_stream.replace "battlefield", partial: "battlefield", locals: { 
+  battle: @battle,
+  attacking_units: @attacking_units,
+  defending_units: @defending_units
+} %>
+
+<%= turbo_stream.replace "battle_status", partial: "battle_status", locals: { 
+  battle: @battle,
+  victory_result: @victory_result
+} %>
+
+<%= turbo_stream.append "body" do %>
+  <%= render partial: "educational_modal", locals: { 
+    content: @educational_content,
+    victory_result: @victory_result,
+    battle: @battle
+  } %>
+<% end %>
+
+<% if @battle.status == "completed" %>
+  <%= turbo_stream.replace "battle_controls" do %>
+    <div class="mt-6 text-center">
+      <div class="bg-white rounded-lg shadow-lg p-6 max-w-md mx-auto">
+        <h3 class="text-2xl font-bold mb-4">🏆 Battle Complete!</h3>
+        <p class="text-gray-600 mb-4"><%= @victory_result&.dig(:message) || "The battle has concluded." %></p>
+        <%= link_to "View Battle Summary", battle_path(@battle), class: "bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700" %>
+        <%= link_to "New Battle", new_battle_path, class: "bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 ml-4" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

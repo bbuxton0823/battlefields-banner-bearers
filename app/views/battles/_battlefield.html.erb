@@ -1,0 +1,119 @@
+<div id="battlefield" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <!-- Attacking Army -->
+  <div class="bg-white rounded-lg shadow-lg p-6">
+    <h3 class="text-xl font-semibold mb-4 text-red-600">
+      ⚔️ <%= @battle.attacking_army.name %>
+    </h3>
+    
+    <div class="space-y-3">
+      <% @attacking_units.each do |unit| %>
+        <div class="border rounded-lg p-3 <%= unit.health > 0 ? 'border-gray-200' : 'border-red-200 bg-red-50' %>">
+          <div class="flex justify-between items-center">
+            <div>
+              <div class="font-medium"><%= unit.name %></div>
+              <div class="text-sm text-gray-600">
+                <%= unit.unit_type %> • 
+                ATK: <%= unit.attack %> • 
+                DEF: <%= unit.defense %>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-sm font-medium <%= unit.health > 50 ? 'text-green-600' : unit.health > 20 ? 'text-yellow-600' : 'text-red-600' %>">
+                HP: <%= unit.health %>/100
+              </div>
+              <div class="w-16 h-2 bg-gray-200 rounded-full mt-1">
+                <div class="h-2 rounded-full <%= unit.health > 50 ? 'bg-green-500' : unit.health > 20 ? 'bg-yellow-500' : 'bg-red-500' %>" 
+                     style="width: <%= [unit.health, 100].min %>%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Terrain Display -->
+  <div class="bg-white rounded-lg shadow-lg p-6">
+    <h3 class="text-xl font-semibold mb-4 text-center">🗺️ <%= @battle.terrain.name %></h3>
+    
+    <div class="text-center mb-4">
+      <div class="text-4xl mb-2">
+        <% case @battle.terrain.name %>
+        <% when "Mojave Desert" %>
+          🏜️
+        <% when "Tibetan Mountains" %>
+          🏔️
+        <% when "Amazon Rainforest" %>
+          🌳
+        <% when "Siberian Tundra" %>
+          ❄️
+        <% when "English Channel" %>
+          🌊
+        <% end %>
+      </div>
+      <p class="text-sm text-gray-600"><%= @battle.terrain.description %></p>
+    </div>
+
+    <div class="space-y-2 text-sm">
+      <div class="flex justify-between">
+        <span>Mobility Modifier:</span>
+        <span class="font-medium <%= @battle.terrain.mobility_modifier >= 0 ? 'text-green-600' : 'text-red-600' %>">
+          <%= @battle.terrain.mobility_modifier >= 0 ? '+' : '' %><%= @battle.terrain.mobility_modifier %>
+        </span>
+      </div>
+      <div class="flex justify-between">
+        <span>Heat Stress:</span>
+        <span class="font-medium <%= @battle.terrain.heat_stress == 0 ? 'text-green-600' : 'text-red-600' %>">
+          <%= @battle.terrain.heat_stress %>
+        </span>
+      </div>
+      <div class="flex justify-between">
+        <span>Visibility:</span>
+        <span class="font-medium <%= @battle.terrain.visibility >= 3 ? 'text-green-600' : 'text-red-600' %>">
+          <%= @battle.terrain.visibility %>/5
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Defending Army -->
+  <div class="bg-white rounded-lg shadow-lg p-6">
+    <h3 class="text-xl font-semibold mb-4 text-blue-600">
+      🛡️ <%= @battle.defending_army.name %>
+    </h3>
+    
+    <div class="space-y-3">
+      <% @defending_units.each do |unit| %>
+        <div class="border rounded-lg p-3 <%= unit.health > 0 ? 'border-gray-200' : 'border-red-200 bg-red-50' %>">
+          <div class="flex justify-between items-center">
+            <div>
+              <div class="font-medium"><%= unit.name %></div>
+              <div class="text-sm text-gray-600">
+                <%= unit.unit_type %> • 
+                ATK: <%= unit.attack %> • 
+                DEF: <%= unit.defense %>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-sm font-medium <%= unit.health > 50 ? 'text-green-600' : unit.health > 20 ? 'text-yellow-600' : 'text-red-600' %>">
+                HP: <%= unit.health %>/100
+              </div>
+              <div class="w-16 h-2 bg-gray-200 rounded-full mt-1">
+                <div class="h-2 rounded-full <%= unit.health > 50 ? 'bg-green-500' : unit.health > 20 ? 'bg-yellow-500' : 'bg-red-500' %>" 
+                     style="width: <%= [unit.health, 100].min %>%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- Battle Controls -->
+<div class="mt-6 text-center">
+  <%= button_to "Resolve Turn", resolve_turn_battle_path(@battle), 
+      method: :post,
+      class: "bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition duration-200 text-lg font-semibold",
+      data: { turbo: true } %>
+</div>

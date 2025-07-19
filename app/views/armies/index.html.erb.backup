@@ -1,0 +1,1031 @@
+<div class="min-h-screen bg-gradient-to-br from-amber-900 via-orange-800 to-red-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header Section -->
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-bold text-white mb-4 tracking-tight">
+        <span class="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+          Historical Armies
+        </span>
+      </h1>
+      <p class="text-xl text-amber-200 max-w-2xl mx-auto">
+        Command legendary forces across history. Each army brings unique strategies, weapons, and historical context to master.
+      </p>
+    </div>
+
+    <!-- Era Filter -->
+    <div class="mb-8">
+      <div class="flex justify-center space-x-2 bg-amber-800/50 backdrop-blur rounded-full p-2 max-w-2xl mx-auto">
+        <button class="era-filter px-4 py-2 rounded-full text-sm font-medium transition-all bg-orange-500 text-white" data-era="all">
+          All Eras
+        </button>
+        <button class="era-filter px-4 py-2 rounded-full text-sm font-medium transition-all text-amber-200 hover:bg-amber-700" data-era="Ancient">
+          Ancient
+        </button>
+        <button class="era-filter px-4 py-2 rounded-full text-sm font-medium transition-all text-amber-200 hover:bg-amber-700" data-era="Medieval">
+          Medieval
+        </button>
+        <button class="era-filter px-4 py-2 rounded-full text-sm font-medium transition-all text-amber-200 hover:bg-amber-700" data-era="Renaissance">
+          Renaissance
+        </button>
+        <button class="era-filter px-4 py-2 rounded-full text-sm font-medium transition-all text-amber-200 hover:bg-amber-700" data-era="Modern">
+          Modern
+        </button>
+      </div>
+    </div>
+
+    <!-- Army Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="armies-grid">
+      <% @armies.each do |army| %>
+        <div class="army-card group" data-era="<%= army.era %>">
+          <div class="bg-amber-800/50 backdrop-blur rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-orange-500/20">
+            <!-- Army Image -->
+            <div class="h-64 relative overflow-hidden army-image-container" data-army="<%= army.name.downcase.gsub(/\s+/, '-') %>">
+              <div class="absolute inset-0 army-background <%= army.name.downcase.gsub(/\s+/, '-') %>"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40"></div>
+              <div class="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/30"></div>
+              
+              <!-- Army Icon with Cinematic Styling -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center transform transition-all duration-500 hover:scale-110 group-hover:scale-105">
+                  <div class="relative">
+                    <!-- Main Army Icon -->
+                    <div class="text-8xl mb-3 drop-shadow-2xl army-icon filter brightness-110" data-tooltip="<%= army.name %>">
+                      <%= case army.name
+                          when 'Sun Tzu\'s Warring States Army' then '🐉'
+                          when 'Roman Legion' then '🏛️'
+                          when 'Mongol Horde' then '🏹'
+                          when 'English Longbowmen' then '🏹'
+                          when 'Viking Longship Raiders' then '⚔️'
+                          when 'Ottoman Janissaries' then '🔫'
+                          when 'Aztec Eagle Warriors' then '🦅'
+                          when 'Soviet Ski Troops' then '🎿'
+                          else '⚔️'
+                          end %>
+                    </div>
+                    <!-- Icon Glow Effect -->
+                    <div class="absolute inset-0 text-8xl mb-3 army-icon opacity-30 blur-sm animate-pulse">
+                      <%= case army.name
+                          when 'Sun Tzu\'s Warring States Army' then '🐉'
+                          when 'Roman Legion' then '🏛️'
+                          when 'Mongol Horde' then '🏹'
+                          when 'English Longbowmen' then '🏹'
+                          when 'Viking Longship Raiders' then '⚔️'
+                          when 'Ottoman Janissaries' then '🔫'
+                          when 'Aztec Eagle Warriors' then '🦅'
+                          when 'Soviet Ski Troops' then '🎿'
+                          else '⚔️'
+                          end %>
+                    </div>
+                  </div>
+                  <!-- Army Name with Epic Styling -->
+                  <div class="text-white text-base font-bold drop-shadow-2xl tracking-wide uppercase opacity-90 group-hover:opacity-100 transition-opacity">
+                    <div class="bg-black/30 backdrop-blur-sm rounded-full px-4 py-1 border border-white/20">
+                      <%= army.name.split(' ')[0..1].join(' ') %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Era Badge -->
+              <div class="absolute top-3 right-3">
+                <span class="px-3 py-1 bg-gradient-to-r from-orange-500 to-red-600 text-white text-xs font-bold rounded-full shadow-lg">
+                  <%= army.era %>
+                </span>
+              </div>
+              
+              <!-- Quick Stats Overlay -->
+              <div class="absolute bottom-3 left-3 right-3">
+                <div class="bg-black/50 backdrop-blur-sm rounded-lg p-2 text-white text-xs">
+                  <div class="flex justify-between items-center">
+                    <span class="font-semibold"><%= army.core_stat || 'Balanced' %></span>
+                    <span class="text-amber-300">★★★★☆</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Content -->
+            <div class="p-6">
+              <!-- Army Name & Era -->
+              <div class="flex justify-between items-start mb-3">
+                <h3 class="text-xl font-bold text-white flex-1 mr-2"><%= army.name %></h3>
+                <button class="educational-toggle text-amber-400 hover:text-amber-300 transition-colors" 
+                        data-army-id="<%= army.id %>" 
+                        title="Show Educational Content">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </div>
+              
+              <!-- Quick Stats Row -->
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="text-center bg-amber-800/30 rounded-lg p-2">
+                  <div class="text-amber-400 font-bold text-sm"><%= army.core_stat || 'Balanced' %></div>
+                  <div class="text-amber-200 text-xs">Core Strength</div>
+                </div>
+                <div class="text-center bg-amber-800/30 rounded-lg p-2">
+                  <div class="text-amber-400 font-bold text-sm"><%= army.signature_ability&.split(' ')&.first || 'Special' %></div>
+                  <div class="text-amber-200 text-xs">Signature</div>
+                </div>
+              </div>
+
+              <!-- Description with Tooltip -->
+              <div class="mb-4">
+                <p class="text-amber-200 text-sm line-clamp-2 cursor-help" 
+                   data-tooltip="<%= army.description&.truncate(200) %>"
+                   title="<%= army.description %>">
+                  <%= army.description&.truncate(120) %>
+                </p>
+              </div>
+
+              <!-- Educational Dropdown (Hidden by Default) -->
+              <div class="educational-content hidden mb-4" id="education-<%= army.id %>">
+                <div class="bg-gradient-to-r from-amber-900/50 to-orange-900/50 rounded-lg p-4 space-y-3">
+                  <!-- Historical Commander -->
+                  <div class="bg-amber-800/40 rounded-md p-3">
+                    <div class="flex items-center mb-2">
+                      <svg class="w-4 h-4 text-amber-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                      </svg>
+                      <div class="text-amber-100 text-xs font-semibold">Historical Commander</div>
+                    </div>
+                    <div class="text-amber-200 text-sm"><%= army.historical_commander || 'Various legendary leaders' %></div>
+                  </div>
+                  
+                  <!-- Signature Ability -->
+                  <div class="bg-orange-800/40 rounded-md p-3">
+                    <div class="flex items-center mb-2">
+                      <svg class="w-4 h-4 text-orange-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path>
+                      </svg>
+                      <div class="text-orange-100 text-xs font-semibold">Signature Ability</div>
+                    </div>
+                    <div class="text-orange-200 text-sm"><%= army.signature_ability || 'Unique tactical advantage' %></div>
+                  </div>
+                  
+                  <!-- Historical Context -->
+                  <div class="bg-red-800/40 rounded-md p-3">
+                    <div class="flex items-center mb-2">
+                      <svg class="w-4 h-4 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                      </svg>
+                      <div class="text-red-100 text-xs font-semibold">Historical Context</div>
+                    </div>
+                    <div class="text-red-200 text-sm line-clamp-3"><%= army.factual_basis %></div>
+                  </div>
+                  
+                  <!-- Unique Weapon -->
+                  <% if army.unique_weapon.present? %>
+                  <div class="bg-purple-800/40 rounded-md p-3">
+                    <div class="flex items-center mb-2">
+                      <svg class="w-4 h-4 text-purple-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z" clip-rule="evenodd"></path>
+                      </svg>
+                      <div class="text-purple-100 text-xs font-semibold">Unique Weapon</div>
+                    </div>
+                    <div class="text-purple-200 text-sm"><%= army.unique_weapon %></div>
+                  </div>
+                  <% end %>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="flex space-x-2">
+                <%= link_to army_path(army), class: "flex-1 text-center px-4 py-2 bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold rounded-lg hover:from-orange-600 hover:to-red-700 transition-all duration-300 text-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" do %>
+                  ⚔️ Command
+                <% end %>
+                <button class="flex-1 px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold rounded-lg hover:from-amber-700 hover:to-orange-700 transition-all duration-300 text-sm shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 learn-more-btn" 
+                        data-army-id="<%= army.id %>">
+                  📚 Learn
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Legendary Commanders Section -->
+    <div class="mt-16">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-white mb-4 tracking-tight">
+          <span class="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+            👑 Legendary Commanders
+          </span>
+        </h2>
+        <p class="text-lg text-amber-200 max-w-3xl mx-auto">
+          Meet the brilliant minds and fearless leaders who shaped the course of history through their military genius and tactical innovation.
+        </p>
+      </div>
+
+      <!-- Commander Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <% @armies.each do |army| %>
+          <% 
+            # Enhanced commander data with biographical information
+            commander_data = case army.historical_commander
+              when 'Sun Tzu'
+                {
+                  name: 'Sun Tzu',
+                  title: 'Master of Strategy',
+                  birth_death: 'c. 544-496 BCE',
+                  birthplace: 'Kingdom of Wu, Ancient China',
+                  famous_quote: '"All warfare is based on deception."',
+                  achievements: ['Authored "The Art of War"', 'Never lost a battle', 'Father of strategic warfare'],
+                  leadership_style: 'Philosophical and calculated',
+                  portrait_emoji: '👨‍🎓',
+                  background_class: 'chinese-commander'
+                }
+              when 'Genghis Khan'
+                {
+                  name: 'Genghis Khan',
+                  title: 'Great Khan of the Mongols',
+                  birth_death: 'c. 1162-1227 CE',
+                  birthplace: 'Mongolian steppes',
+                  famous_quote: '"I am the punishment of God."',
+                  achievements: ['Largest contiguous empire in history', 'United warring Mongol tribes', 'Revolutionary military tactics'],
+                  leadership_style: 'Ruthless but meritocratic',
+                  portrait_emoji: '🤴',
+                  background_class: 'mongol-commander'
+                }
+              when 'Julius Caesar'
+                {
+                  name: 'Julius Caesar',
+                  title: 'Imperator of Rome',
+                  birth_death: '100-44 BCE',
+                  birthplace: 'Rome, Roman Republic',
+                  famous_quote: '"Veni, vidi, vici" (I came, I saw, I conquered)',
+                  achievements: ['Conquered Gaul', 'Crossed the Rubicon', 'Reformed the Roman calendar'],
+                  leadership_style: 'Charismatic and ambitious',
+                  portrait_emoji: '🏛️',
+                  background_class: 'roman-commander'
+                }
+              when 'Ragnar Lothbrok'
+                {
+                  name: 'Ragnar Lothbrok',
+                  title: 'King of the Vikings',
+                  birth_death: 'c. 795-865 CE',
+                  birthplace: 'Denmark/Sweden',
+                  famous_quote: '"Power is only revealed when it is challenged."',
+                  achievements: ['Raids on England and France', 'Legendary warrior status', 'Founding of Viking dynasties'],
+                  leadership_style: 'Fierce and inspirational',
+                  portrait_emoji: '🛡️',
+                  background_class: 'viking-commander'
+                }
+              when 'King Edward III'
+                {
+                  name: 'Edward III',
+                  title: 'King of England',
+                  birth_death: '1312-1377 CE',
+                  birthplace: 'Windsor Castle, England',
+                  famous_quote: '"Honi soit qui mal y pense" (Shame on him who thinks evil of it)',
+                  achievements: ['Victory at Crécy', 'Founded Order of the Garter', 'Hundred Years\' War'],
+                  leadership_style: 'Noble and tactical',
+                  portrait_emoji: '🏹',
+                  background_class: 'english-commander'
+                }
+              when 'Sultan Mehmed II'
+                {
+                  name: 'Mehmed II',
+                  title: 'The Conqueror',
+                  birth_death: '1432-1481 CE',
+                  birthplace: 'Edirne, Ottoman Empire',
+                  famous_quote: '"Either I will conquer Constantinople or Constantinople will conquer me."',
+                  achievements: ['Conquered Constantinople', 'Ended Byzantine Empire', 'Master of siege warfare'],
+                  leadership_style: 'Determined and innovative',
+                  portrait_emoji: '🕌',
+                  background_class: 'ottoman-commander'
+                }
+              when 'Moctezuma II'
+                {
+                  name: 'Moctezuma II',
+                  title: 'Huey Tlatoani of Tenochtitlan',
+                  birth_death: 'c. 1466-1520 CE',
+                  birthplace: 'Tenochtitlan, Aztec Empire',
+                  famous_quote: '"We did not come to destroy, but to build."',
+                  achievements: ['Expanded Aztec Empire', 'Great temple builder', 'Patron of arts and culture'],
+                  leadership_style: 'Ceremonial and strategic',
+                  portrait_emoji: '🦅',
+                  background_class: 'aztec-commander'
+                }
+              when 'Simo Häyhä'
+                {
+                  name: 'Simo Häyhä',
+                  title: 'The White Death',
+                  birth_death: '1905-2002 CE',
+                  birthplace: 'Rautjärvi, Finland',
+                  famous_quote: '"I did what I was told to do, as well as I could."',
+                  achievements: ['505 confirmed sniper kills', 'Winter War hero', 'Most lethal sniper in history'],
+                  leadership_style: 'Silent and deadly accurate',
+                  portrait_emoji: '🎯',
+                  background_class: 'finnish-commander'
+                }
+              else
+                {
+                  name: army.historical_commander || 'Unknown',
+                  title: 'Military Leader',
+                  birth_death: 'Unknown',
+                  birthplace: 'Unknown',
+                  famous_quote: '"Victory through courage."',
+                  achievements: ['Military leadership'],
+                  leadership_style: 'Strategic',
+                  portrait_emoji: '⚔️',
+                  background_class: 'default-commander'
+                }
+              end
+          %>
+          
+          <div class="commander-card group cursor-pointer" data-commander="<%= commander_data[:name] %>">
+            <div class="bg-gradient-to-br from-slate-800/90 to-slate-900/95 backdrop-blur rounded-xl overflow-hidden shadow-2xl transform transition-all duration-500 hover:scale-105 hover:shadow-2xl border border-slate-600/50">
+              <!-- Commander Portrait -->
+              <div class="h-40 relative overflow-hidden commander-portrait <%= commander_data[:background_class] %>">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
+                
+                <!-- Portrait Icon -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <div class="text-6xl mb-2 drop-shadow-2xl commander-portrait-icon" 
+                       data-tooltip="<%= commander_data[:name] %> - <%= commander_data[:title] %>">
+                    <%= commander_data[:portrait_emoji] %>
+                  </div>
+                </div>
+                
+                <!-- Era Badge -->
+                <div class="absolute top-2 right-2">
+                  <span class="px-2 py-1 bg-gradient-to-r from-purple-500 to-pink-600 text-white text-xs font-bold rounded-full shadow-md">
+                    <%= army.era.split(' ').first %>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Commander Info -->
+              <div class="p-4">
+                <!-- Name & Title -->
+                <div class="text-center mb-3">
+                  <h4 class="text-lg font-bold text-white mb-1"><%= commander_data[:name] %></h4>
+                  <p class="text-amber-400 text-sm font-medium"><%= commander_data[:title] %></p>
+                  <p class="text-slate-400 text-xs"><%= commander_data[:birth_death] %></p>
+                </div>
+
+                <!-- Army Connection -->
+                <div class="text-center mb-3">
+                  <div class="inline-flex items-center space-x-2 bg-slate-700/50 rounded-full px-3 py-1">
+                    <span class="text-lg">
+                      <%= case army.name
+                          when 'Sun Tzu\'s Warring States Army' then '🐉'
+                          when 'Roman Legion' then '🏛️'
+                          when 'Mongol Horde' then '🏹'
+                          when 'English Longbowmen' then '🏹'
+                          when 'Viking Longship Raiders' then '⚔️'
+                          when 'Ottoman Janissaries' then '🔫'
+                          when 'Aztec Eagle Warriors' then '🦅'
+                          when 'Soviet Ski Troops' then '🎿'
+                          else '⚔️'
+                          end %>
+                    </span>
+                    <span class="text-slate-300 text-xs font-medium"><%= army.name.split(' ')[0..1].join(' ') %></span>
+                  </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="text-center">
+                  <button class="commander-details-btn w-full px-3 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300 text-sm shadow-lg"
+                          data-commander-id="<%= army.id %>"
+                          data-commander-data="<%= commander_data.to_json.gsub('"', '&quot;') %>">
+                    📜 View Biography
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Commander Biography Modal -->
+    <div id="commander-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden">
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-slate-600">
+          <!-- Modal Header -->
+          <div class="flex justify-between items-center p-6 border-b border-slate-600">
+            <h3 id="modal-title" class="text-2xl font-bold text-white">Commander Biography</h3>
+            <button id="close-modal" class="text-slate-400 hover:text-white transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+          
+          <!-- Modal Content -->
+          <div id="modal-content" class="p-6">
+            <!-- Content will be populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Learning Progress -->
+    <div class="mt-12 bg-amber-800/50 backdrop-blur rounded-2xl p-6">
+      <h3 class="text-xl font-bold text-white mb-4 text-center">⚔️ Military Mastery</h3>
+      <div class="flex justify-center space-x-8 text-center">
+        <div>
+          <div class="text-3xl font-bold text-orange-400"><%= @armies.count %></div>
+          <div class="text-amber-200 text-sm">Armies Discovered</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-red-400"><%= @armies.map(&:era).uniq.count %></div>
+          <div class="text-amber-200 text-sm">Eras Explored</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-purple-400"><%= @armies.count %></div>
+          <div class="text-amber-200 text-sm">Legendary Leaders</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Enhanced functionality for army cards
+document.addEventListener('DOMContentLoaded', function() {
+  const filters = document.querySelectorAll('.era-filter');
+  const cards = document.querySelectorAll('.army-card');
+  const educationalToggles = document.querySelectorAll('.educational-toggle');
+  const learnMoreButtons = document.querySelectorAll('.learn-more-btn');
+  
+  // Era filtering functionality
+  filters.forEach(filter => {
+    filter.addEventListener('click', function() {
+      const selectedEra = this.dataset.era;
+      
+      // Update active filter
+      filters.forEach(f => {
+        f.classList.remove('bg-orange-500', 'text-white');
+        f.classList.add('text-amber-200', 'hover:bg-amber-700');
+      });
+      this.classList.add('bg-orange-500', 'text-white');
+      this.classList.remove('text-amber-200', 'hover:bg-amber-700');
+      
+      // Filter cards with stagger animation
+      cards.forEach((card, index) => {
+        if (selectedEra === 'all' || card.dataset.era === selectedEra) {
+          card.style.display = 'block';
+          card.style.animation = `fadeInStagger 0.4s ease-out ${index * 0.1}s both`;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+  
+  // Educational content toggles
+  educationalToggles.forEach(toggle => {
+    toggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      const armyId = this.dataset.armyId;
+      const content = document.getElementById(`education-${armyId}`);
+      const icon = this.querySelector('svg');
+      
+      if (content.classList.contains('hidden')) {
+        // Show educational content
+        content.classList.remove('hidden');
+        content.style.animation = 'slideDown 0.3s ease-out';
+        icon.style.transform = 'rotate(180deg)';
+        this.title = 'Hide Educational Content';
+      } else {
+        // Hide educational content
+        content.style.animation = 'slideUp 0.3s ease-out';
+        setTimeout(() => {
+          content.classList.add('hidden');
+        }, 300);
+        icon.style.transform = 'rotate(0deg)';
+        this.title = 'Show Educational Content';
+      }
+    });
+  });
+  
+  // Learn More button functionality
+  learnMoreButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      const armyId = this.dataset.armyId;
+      const toggle = document.querySelector(`.educational-toggle[data-army-id="${armyId}"]`);
+      
+      // Trigger educational toggle
+      toggle.click();
+      
+      // Add visual feedback
+      this.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        this.style.transform = 'scale(1)';
+      }, 150);
+    });
+  });
+  
+  // Commander Biography Modal functionality
+  const commanderModal = document.getElementById('commander-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalContent = document.getElementById('modal-content');
+  const closeModalBtn = document.getElementById('close-modal');
+  const commanderDetailsBtns = document.querySelectorAll('.commander-details-btn');
+  
+  function openCommanderModal(commanderData) {
+    const data = JSON.parse(commanderData.replace(/&quot;/g, '"'));
+    
+    modalTitle.textContent = `${data.name} - ${data.title}`;
+    
+    modalContent.innerHTML = `
+      <div class="space-y-6">
+        <!-- Commander Portrait & Basic Info -->
+        <div class="flex items-start space-x-6">
+          <div class="flex-shrink-0">
+            <div class="w-24 h-24 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center text-4xl shadow-lg">
+              ${data.portrait_emoji}
+            </div>
+          </div>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold text-white mb-2">${data.name}</h4>
+            <p class="text-amber-400 font-semibold mb-1">${data.title}</p>
+            <div class="space-y-1 text-sm text-slate-300">
+              <p><span class="font-semibold text-slate-200">Born:</span> ${data.birth_death}</p>
+              <p><span class="font-semibold text-slate-200">Birthplace:</span> ${data.birthplace}</p>
+              <p><span class="font-semibold text-slate-200">Leadership Style:</span> ${data.leadership_style}</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Famous Quote -->
+        <div class="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-lg p-4 border-l-4 border-purple-400">
+          <h5 class="text-purple-300 font-semibold mb-2 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L10 4.414 7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            Famous Quote
+          </h5>
+          <p class="text-white italic text-lg">${data.famous_quote}</p>
+        </div>
+        
+        <!-- Major Achievements -->
+        <div class="bg-slate-700/50 rounded-lg p-4">
+          <h5 class="text-amber-400 font-semibold mb-3 flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            Major Achievements
+          </h5>
+          <ul class="space-y-2">
+            ${data.achievements.map(achievement => 
+              `<li class="flex items-start text-slate-200">
+                <svg class="w-4 h-4 mr-2 mt-1 text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                ${achievement}
+              </li>`
+            ).join('')}
+          </ul>
+        </div>
+        
+        <!-- Call to Action -->
+        <div class="text-center pt-4">
+          <div class="inline-flex items-center space-x-4 text-sm text-slate-400">
+            <span>Learn more about this legendary commander's army</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    commanderModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  
+  function closeCommanderModal() {
+    commanderModal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+  
+  // Event listeners for commander modals
+  commanderDetailsBtns.forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const commanderData = this.dataset.commanderData;
+      openCommanderModal(commanderData);
+    });
+  });
+  
+  closeModalBtn.addEventListener('click', closeCommanderModal);
+  
+  commanderModal.addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeCommanderModal();
+    }
+  });
+  
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !commanderModal.classList.contains('hidden')) {
+      closeCommanderModal();
+    }
+  });
+  
+  // Tooltip functionality
+  const tooltipElements = document.querySelectorAll('[data-tooltip]');
+  let tooltip = null;
+  
+  function createTooltip(text, element) {
+    if (tooltip) tooltip.remove();
+    
+    tooltip = document.createElement('div');
+    tooltip.className = 'absolute z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg max-w-xs';
+    tooltip.style.animation = 'fadeIn 0.2s ease-out';
+    tooltip.textContent = text;
+    
+    document.body.appendChild(tooltip);
+    
+    const rect = element.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
+    
+    let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+    let top = rect.top - tooltipRect.height - 10;
+    
+    // Adjust if tooltip goes off screen
+    if (left < 10) left = 10;
+    if (left + tooltipRect.width > window.innerWidth - 10) {
+      left = window.innerWidth - tooltipRect.width - 10;
+    }
+    if (top < 10) {
+      top = rect.bottom + 10;
+    }
+    
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top + 'px';
+  }
+  
+  tooltipElements.forEach(element => {
+    element.addEventListener('mouseenter', function() {
+      const tooltipText = this.dataset.tooltip || this.title;
+      if (tooltipText) {
+        createTooltip(tooltipText, this);
+      }
+    });
+    
+    element.addEventListener('mouseleave', function() {
+      if (tooltip) {
+        tooltip.remove();
+        tooltip = null;
+      }
+    });
+  });
+  
+  // Close tooltip on scroll
+  window.addEventListener('scroll', function() {
+    if (tooltip) {
+      tooltip.remove();
+      tooltip = null;
+    }
+  });
+});
+</script>
+
+<style>
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInStagger {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px) scale(0.95); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+}
+
+@keyframes slideDown {
+  from { 
+    opacity: 0; 
+    max-height: 0; 
+    transform: translateY(-10px); 
+  }
+  to { 
+    opacity: 1; 
+    max-height: 500px; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 1; 
+    max-height: 500px; 
+    transform: translateY(0); 
+  }
+  to { 
+    opacity: 0; 
+    max-height: 0; 
+    transform: translateY(-10px); 
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Army Card Styles */
+.army-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.army-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Army-specific Background Images - Dramatic Cinematic Style */
+.army-background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: local;
+}
+
+/* Sun Tzu's Warring States Army - Ancient Chinese Warfare */
+.sun-tzu-s-warring-states-army {
+  background: 
+    linear-gradient(135deg, rgba(220, 38, 38, 0.9) 0%, rgba(55, 65, 81, 0.8) 50%, rgba(17, 24, 39, 0.9) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="chinese" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20,5 L35,20 L20,35 L5,20 Z" fill="rgba(239,68,68,0.1)" stroke="rgba(245,158,11,0.2)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23chinese)"/></svg>');
+  position: relative;
+}
+
+.sun-tzu-s-warring-states-army::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 30%, rgba(239, 68, 68, 0.3) 0%, transparent 70%);
+  mix-blend-mode: overlay;
+}
+
+/* Roman Legion - Imperial Might */
+.roman-legion {
+  background: 
+    linear-gradient(135deg, rgba(124, 45, 18, 0.9) 0%, rgba(220, 38, 38, 0.8) 50%, rgba(251, 191, 36, 0.7) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="roman" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="15" cy="15" r="8" fill="none" stroke="rgba(251,191,36,0.2)" stroke-width="1"/><path d="M15,7 L15,23 M7,15 L23,15" stroke="rgba(239,68,68,0.15)" stroke-width="2"/></pattern></defs><rect width="100%" height="100%" fill="url(%23roman)"/></svg>');
+}
+
+/* Mongol Horde - Steppe Warriors */
+.mongol-horde {
+  background: 
+    linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(120, 113, 108, 0.8) 50%, rgba(30, 41, 59, 0.9) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="mongol" width="50" height="30" patternUnits="userSpaceOnUse"><path d="M0,15 Q25,5 50,15 Q25,25 0,15" fill="rgba(120,113,108,0.1)" stroke="rgba(78,116,202,0.2)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23mongol)"/></svg>');
+}
+
+/* English Longbowmen - Forest Archers */
+.english-longbowmen {
+  background: 
+    linear-gradient(135deg, rgba(20, 83, 45, 0.9) 0%, rgba(22, 163, 74, 0.8) 50%, rgba(132, 204, 22, 0.7) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="bow" width="25" height="40" patternUnits="userSpaceOnUse"><path d="M12,5 L12,35" stroke="rgba(132,204,22,0.3)" stroke-width="2"/><path d="M8,10 Q12,8 16,10" fill="none" stroke="rgba(22,163,74,0.2)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23bow)"/></svg>');
+}
+
+/* Viking Longship Raiders - Norse Warriors */
+.viking-longship-raiders {
+  background: 
+    linear-gradient(135deg, rgba(30, 58, 138, 0.9) 0%, rgba(55, 48, 163, 0.8) 50%, rgba(99, 102, 241, 0.7) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="viking" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20,10 L30,20 L20,30 L10,20 Z" fill="rgba(99,102,241,0.1)" stroke="rgba(165,180,252,0.2)"/><circle cx="20" cy="20" r="3" fill="rgba(255,255,255,0.3)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23viking)"/></svg>');
+}
+
+/* Ottoman Janissaries - Gunpowder Empire */
+.ottoman-janissaries {
+  background: 
+    linear-gradient(135deg, rgba(124, 45, 18, 0.9) 0%, rgba(234, 88, 12, 0.8) 50%, rgba(251, 191, 36, 0.7) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="ottoman" width="35" height="35" patternUnits="userSpaceOnUse"><path d="M17.5,5 L30,17.5 L17.5,30 L5,17.5 Z" fill="rgba(234,88,12,0.1)"/><circle cx="17.5" cy="17.5" r="5" fill="rgba(251,191,36,0.2)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23ottoman)"/></svg>');
+}
+
+/* Aztec Eagle Warriors - Mesoamerican Might */
+.aztec-eagle-warriors {
+  background: 
+    linear-gradient(135deg, rgba(22, 101, 52, 0.9) 0%, rgba(21, 128, 61, 0.8) 50%, rgba(234, 179, 8, 0.7) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="aztec" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M22.5,10 L35,22.5 L22.5,35 L10,22.5 Z" fill="rgba(21,128,61,0.15)"/><path d="M22.5,15 L30,22.5 L22.5,30 L15,22.5 Z" fill="rgba(234,179,8,0.2)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23aztec)"/></svg>');
+}
+
+/* Soviet Ski Troops - Winter Warfare */
+.soviet-ski-troops {
+  background: 
+    linear-gradient(135deg, rgba(31, 41, 55, 0.9) 0%, rgba(220, 38, 38, 0.8) 50%, rgba(243, 244, 246, 0.6) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><defs><pattern id="soviet" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M15,5 L25,15 L15,25 L5,15 Z" fill="rgba(220,38,38,0.15)"/><path d="M10,10 L20,10 M15,5 L15,25" stroke="rgba(243,244,246,0.3)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23soviet)"/></svg>');
+}
+
+/* Add dramatic lighting effects */
+.army-image-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* Enhanced Interactive Elements */
+.army-icon {
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.army-icon:hover {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+}
+
+.educational-toggle {
+  transition: all 0.2s ease;
+}
+
+.educational-toggle:hover {
+  transform: scale(1.1);
+  color: #fbbf24 !important;
+}
+
+.educational-toggle svg {
+  transition: transform 0.3s ease;
+}
+
+.learn-more-btn:active {
+  transform: scale(0.95) !important;
+}
+
+/* Tooltip Enhancements */
+.army-card [data-tooltip] {
+  cursor: help;
+}
+
+/* Enhanced Grid Responsiveness */
+@media (min-width: 1536px) {
+  #armies-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Custom Scrollbar for Educational Content */
+.educational-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.educational-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.educational-content::-webkit-scrollbar-thumb {
+  background: rgba(251, 191, 36, 0.5);
+  border-radius: 2px;
+}
+
+.educational-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(251, 191, 36, 0.7);
+}
+
+/* Enhanced Button Styles */
+.army-card button,
+.army-card a {
+  position: relative;
+  overflow: hidden;
+}
+
+.army-card button::before,
+.army-card a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.army-card button:hover::before,
+.army-card a:hover::before {
+  left: 100%;
+}
+
+/* Commander Card Styles */
+.commander-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.commander-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Commander Portrait Backgrounds */
+.commander-portrait {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.chinese-commander {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.8) 0%, rgba(245, 158, 11, 0.6) 50%, rgba(17, 24, 39, 0.8) 100%);
+  background-image: 
+    radial-gradient(circle at 30% 30%, rgba(245, 158, 11, 0.3) 0%, transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(220, 38, 38, 0.2) 0%, transparent 60%);
+}
+
+.mongol-commander {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(120, 113, 108, 0.7) 50%, rgba(75, 85, 99, 0.8) 100%);
+  background-image: 
+    radial-gradient(circle at 40% 20%, rgba(120, 113, 108, 0.4) 0%, transparent 60%);
+}
+
+.roman-commander {
+  background: linear-gradient(135deg, rgba(124, 45, 18, 0.9) 0%, rgba(220, 38, 38, 0.7) 50%, rgba(251, 191, 36, 0.6) 100%);
+  background-image: 
+    radial-gradient(circle at 50% 30%, rgba(251, 191, 36, 0.3) 0%, transparent 60%);
+}
+
+.viking-commander {
+  background: linear-gradient(135deg, rgba(30, 58, 138, 0.9) 0%, rgba(55, 48, 163, 0.7) 50%, rgba(165, 180, 252, 0.6) 100%);
+  background-image: 
+    radial-gradient(circle at 60% 40%, rgba(165, 180, 252, 0.3) 0%, transparent 60%);
+}
+
+.english-commander {
+  background: linear-gradient(135deg, rgba(20, 83, 45, 0.9) 0%, rgba(22, 163, 74, 0.7) 50%, rgba(132, 204, 22, 0.6) 100%);
+  background-image: 
+    radial-gradient(circle at 40% 60%, rgba(132, 204, 22, 0.3) 0%, transparent 60%);
+}
+
+.ottoman-commander {
+  background: linear-gradient(135deg, rgba(124, 45, 18, 0.9) 0%, rgba(234, 88, 12, 0.7) 50%, rgba(251, 191, 36, 0.6) 100%);
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.3) 0%, transparent 60%);
+}
+
+.aztec-commander {
+  background: linear-gradient(135deg, rgba(22, 101, 52, 0.9) 0%, rgba(21, 128, 61, 0.7) 50%, rgba(234, 179, 8, 0.6) 100%);
+  background-image: 
+    radial-gradient(circle at 30% 70%, rgba(234, 179, 8, 0.4) 0%, transparent 60%);
+}
+
+.finnish-commander {
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.9) 0%, rgba(220, 38, 38, 0.7) 50%, rgba(243, 244, 246, 0.5) 100%);
+  background-image: 
+    radial-gradient(circle at 50% 20%, rgba(243, 244, 246, 0.3) 0%, transparent 60%);
+}
+
+.default-commander {
+  background: linear-gradient(135deg, rgba(75, 85, 99, 0.9) 0%, rgba(107, 114, 128, 0.7) 50%, rgba(156, 163, 175, 0.6) 100%);
+}
+
+/* Commander Portrait Icon Animations */
+.commander-portrait-icon {
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+}
+
+.commander-card:hover .commander-portrait-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.6));
+}
+
+/* Enhanced Modal Animations */
+#commander-modal {
+  animation: fadeIn 0.3s ease-out;
+}
+
+#commander-modal.hidden {
+  animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Commander Details Button Enhancement */
+.commander-details-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.commander-details-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.commander-details-btn:hover::before {
+  left: 100%;
+}
+</style>
