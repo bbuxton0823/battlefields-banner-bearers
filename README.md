@@ -1,24 +1,32 @@
-# README
+# Battlefields Banner Bearers
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Ruby on Rails application for learning history through strategic gameplay with historical armies and commanders.
 
-Things you may want to cover:
+## Getting Started
 
-* Ruby version
+This application allows users to explore and command legendary forces across history, featuring educational content about armies, battles, and terrains.
 
-* System dependencies
+### Prerequisites
 
-* Configuration
+* Ruby version: Check `.ruby-version` file
+* Rails 8.0.2
+* PostgreSQL
 
-* Database creation
+### Setup
 
-* Database initialization
+* System dependencies installation
+* Database creation and setup
+* Database initialization with seed data
+* Run the test suite with RSpec
 
-* How to run the test suite
+### Features
 
-* Services (job queues, cache servers, search engines, etc.)
+* Historical army cards with educational content
+* Commander profiles with biographical data
+* Era-based filtering system
+* Battle simulation capabilities
+* Terrain and battle management
 
-* Deployment instructions
+### Deployment
 
-* ...
+* Deployment instructions for production environments
