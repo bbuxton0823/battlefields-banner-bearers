@@ -68,10 +68,11 @@ puts "Creating historical terrains..."
 terrains = [
   {
     name: "Mojave Desert",
-    terrain_type: "desert",
+    terrain_type: "Desert",
     climate: "arid",
     mobility_modifier: -2,
     heat_stress: 3,
+    cold_stress: 1,
     disease_risk: 1,
     visibility: 5,
     description: "Vast arid landscape with extreme temperature variations. Heavy armor suffers from heat exhaustion while light units excel.",
@@ -79,10 +80,11 @@ terrains = [
   },
   {
     name: "Tibetan Mountains",
-    terrain_type: "mountain",
+    terrain_type: "Mountain",
     climate: "alpine",
     mobility_modifier: -3,
     heat_stress: 0,
+    cold_stress: 3,
     disease_risk: 2,
     visibility: 3,
     description: "High altitude terrain with thin air and treacherous passes. Ranged units gain advantage from elevation.",
@@ -90,10 +92,11 @@ terrains = [
   },
   {
     name: "Amazon Rainforest",
-    terrain_type: "jungle",
+    terrain_type: "Forest",
     climate: "tropical",
     mobility_modifier: -1,
     heat_stress: 2,
+    cold_stress: 0,
     disease_risk: 4,
     visibility: 2,
     description: "Dense vegetation and high humidity. Disease spreads rapidly but provides excellent cover for ambushes.",
@@ -101,10 +104,11 @@ terrains = [
   },
   {
     name: "Siberian Tundra",
-    terrain_type: "tundra",
+    terrain_type: "Arctic",
     climate: "subarctic",
     mobility_modifier: -2,
     heat_stress: 0,
+    cold_stress: 4,
     disease_risk: 1,
     visibility: 4,
     description: "Frozen wasteland with permafrost. Winter warfare specialists thrive while others struggle with cold.",
@@ -112,10 +116,11 @@ terrains = [
   },
   {
     name: "English Channel",
-    terrain_type: "coastal",
+    terrain_type: "Plains",
     climate: "maritime",
     mobility_modifier: 0,
     heat_stress: 1,
+    cold_stress: 1,
     disease_risk: 2,
     visibility: 3,
     description: "Treacherous waters with unpredictable weather. Naval units essential for crossing.",
@@ -123,10 +128,11 @@ terrains = [
   },
   {
     name: "Gettysburg Battlefield",
-    terrain_type: "mixed",
+    terrain_type: "Plains",
     climate: "temperate",
     mobility_modifier: -1,
     heat_stress: 1,
+    cold_stress: 2,
     disease_risk: 1,
     visibility: 4,
     description: "Rolling hills and ridges with strategic high ground positions. Mixed terrain favors combined arms tactics.",
@@ -134,10 +140,11 @@ terrains = [
   },
   {
     name: "Waterloo Plains",
-    terrain_type: "grassland",
+    terrain_type: "Plains",
     climate: "temperate",
     mobility_modifier: 0,
     heat_stress: 1,
+    cold_stress: 1,
     disease_risk: 1,
     visibility: 5,
     description: "Open plains with occasional ridges. Perfect for cavalry charges and artillery placement.",
@@ -145,10 +152,11 @@ terrains = [
   },
   {
     name: "Thermopylae Pass",
-    terrain_type: "mountain",
+    terrain_type: "Mountain",
     climate: "mediterranean",
     mobility_modifier: -2,
     heat_stress: 2,
+    cold_stress: 0,
     disease_risk: 1,
     visibility: 3,
     description: "Narrow mountain pass that negates numerical advantages. Defensive position of legendary strength.",
@@ -156,10 +164,11 @@ terrains = [
   },
   {
     name: "Hastings Ridge",
-    terrain_type: "hill",
+    terrain_type: "Mountain",
     climate: "temperate",
     mobility_modifier: -1,
     heat_stress: 1,
+    cold_stress: 1,
     disease_risk: 1,
     visibility: 4,
     description: "Elevated defensive position with commanding view. Uphill battles favor defenders.",
@@ -167,10 +176,11 @@ terrains = [
   },
   {
     name: "Cannae Plain",
-    terrain_type: "grassland",
+    terrain_type: "Plains",
     climate: "mediterranean",
     mobility_modifier: 0,
     heat_stress: 2,
+    cold_stress: 0,
     disease_risk: 2,
     visibility: 5,
     description: "Flat plains ideal for maneuver warfare. Perfect for encirclement tactics.",
@@ -314,74 +324,74 @@ armies.each do |army_data|
   case army.name
   when "Sun Tzu's Warring States Army"
     Unit.create!([
-      { army: army, name: "Strategist", unit_type: "commander", attack: 3, defense: 5, health: 100, morale: 9, movement: 4, special_ability: "tactical_advantage", description: "Master tactician who enhances nearby units" },
-      { army: army, name: "Crossbowmen", unit_type: "ranged", attack: 7, defense: 3, health: 80, morale: 7, movement: 3, special_ability: "volley_fire", description: "Deadly accurate ranged units with high damage" },
+      { army: army, name: "Strategist", unit_type: "support", attack: 3, defense: 5, health: 100, morale: 9, movement: 4, special_ability: "tactical_advantage", description: "Master tactician who enhances nearby units" },
+      { army: army, name: "Crossbowmen", unit_type: "archer", attack: 7, defense: 3, health: 80, morale: 7, movement: 3, special_ability: "volley_fire", description: "Deadly accurate ranged units with high damage" },
       { army: army, name: "Spearmen", unit_type: "infantry", attack: 5, defense: 6, health: 90, morale: 8, movement: 3, special_ability: "phalanx", description: "Defensive infantry that excels in formation" }
     ])
   when "Mongol Horde"
     Unit.create!([
-      { army: army, name: "Khan", unit_type: "commander", attack: 4, defense: 4, health: 100, morale: 10, movement: 6, special_ability: "inspiring_charge", description: "Legendary leader who inspires fear and loyalty" },
+      { army: army, name: "Khan", unit_type: "support", attack: 4, defense: 4, health: 100, morale: 10, movement: 6, special_ability: "inspiring_charge", description: "Legendary leader who inspires fear and loyalty" },
       { army: army, name: "Horse Archers", unit_type: "cavalry", attack: 6, defense: 4, health: 85, morale: 8, movement: 8, special_ability: "hit_and_run", description: "Mobile archers who strike and retreat" },
       { army: army, name: "Heavy Cavalry", unit_type: "cavalry", attack: 8, defense: 5, health: 95, morale: 9, movement: 6, special_ability: "shock_charge", description: "Devastating cavalry charge that breaks enemy lines" }
     ])
   when "Roman Legion"
     Unit.create!([
-      { army: army, name: "Legate", unit_type: "commander", attack: 3, defense: 6, health: 100, morale: 9, movement: 3, special_ability: "discipline", description: "Roman commander who maintains unit cohesion" },
+      { army: army, name: "Legate", unit_type: "support", attack: 3, defense: 6, health: 100, morale: 9, movement: 3, special_ability: "discipline", description: "Roman commander who maintains unit cohesion" },
       { army: army, name: "Legionaries", unit_type: "infantry", attack: 6, defense: 7, health: 95, morale: 8, movement: 3, special_ability: "testudo", description: "Disciplined heavy infantry with superior defense" },
-      { army: army, name: "Ballista", unit_type: "siege", attack: 9, defense: 2, health: 70, morale: 6, movement: 1, special_ability: "siege_attack", description: "Powerful siege weapon that devastates fortifications" }
+      { army: army, name: "Ballista", unit_type: "artillery", attack: 9, defense: 2, health: 70, morale: 6, movement: 1, special_ability: "siege_attack", description: "Powerful siege weapon that devastates fortifications" }
     ])
   when "Viking Longship Raiders"
     Unit.create!([
-      { army: army, name: "Jarl", unit_type: "commander", attack: 5, defense: 4, health: 100, morale: 9, movement: 4, special_ability: "berserker_rage", description: "Fearless leader who inspires berserker fury" },
+      { army: army, name: "Jarl", unit_type: "support", attack: 5, defense: 4, health: 100, morale: 9, movement: 4, special_ability: "berserker_rage", description: "Fearless leader who inspires berserker fury" },
       { army: army, name: "Berserkers", unit_type: "infantry", attack: 9, defense: 3, health: 90, morale: 10, movement: 4, special_ability: "frenzy", description: "Warriors who fight with supernatural fury" },
       { army: army, name: "Shield Maidens", unit_type: "infantry", attack: 6, defense: 6, health: 85, morale: 8, movement: 4, special_ability: "shield_wall", description: "Elite female warriors with exceptional defense" }
     ])
   when "English Longbowmen"
     Unit.create!([
-      { army: army, name: "Captain", unit_type: "commander", attack: 3, defense: 5, health: 100, morale: 8, movement: 3, special_ability: "volley_command", description: "Skilled commander who coordinates devastating volleys" },
-      { army: army, name: "Longbowmen", unit_type: "ranged", attack: 8, defense: 2, health: 75, morale: 7, movement: 3, special_ability: "piercing_shot", description: "Devastating long-range archers with armor-piercing arrows" },
+      { army: army, name: "Captain", unit_type: "support", attack: 3, defense: 5, health: 100, morale: 8, movement: 3, special_ability: "volley_command", description: "Skilled commander who coordinates devastating volleys" },
+      { army: army, name: "Longbowmen", unit_type: "archer", attack: 8, defense: 2, health: 75, morale: 7, movement: 3, special_ability: "piercing_shot", description: "Devastating long-range archers with armor-piercing arrows" },
       { army: army, name: "Men-at-Arms", unit_type: "infantry", attack: 5, defense: 5, health: 90, morale: 7, movement: 3, special_ability: "defensive_stance", description: "Professional soldiers who protect the archers" }
     ])
   when "Ottoman Janissaries"
     Unit.create!([
-      { army: army, name: "Agha", unit_type: "commander", attack: 4, defense: 5, health: 100, morale: 9, movement: 3, special_ability: "disciplined_fire", description: "Elite commander who coordinates precise volleys" },
+      { army: army, name: "Agha", unit_type: "support", attack: 4, defense: 5, health: 100, morale: 9, movement: 3, special_ability: "disciplined_fire", description: "Elite commander who coordinates precise volleys" },
       { army: army, name: "Janissaries", unit_type: "infantry", attack: 7, defense: 5, health: 85, morale: 9, movement: 3, special_ability: "musket_volley", description: "Elite infantry with superior firearms training" },
-      { army: army, name: "Artillery", unit_type: "siege", attack: 10, defense: 1, health: 60, morale: 6, movement: 1, special_ability: "cannon_fire", description: "Powerful artillery that can destroy any fortification" }
+      { army: army, name: "Artillery", unit_type: "artillery", attack: 10, defense: 1, health: 60, morale: 6, movement: 1, special_ability: "cannon_fire", description: "Powerful artillery that can destroy any fortification" }
     ])
   when "Aztec Eagle Warriors"
     Unit.create!([
-      { army: army, name: "Eagle Knight", unit_type: "commander", attack: 5, defense: 4, health: 100, morale: 9, movement: 5, special_ability: "jaguar_strike", description: "Elite warrior who leads with supernatural agility" },
+      { army: army, name: "Eagle Knight", unit_type: "support", attack: 5, defense: 4, health: 100, morale: 9, movement: 5, special_ability: "jaguar_strike", description: "Elite warrior who leads with supernatural agility" },
       { army: army, name: "Eagle Warriors", unit_type: "infantry", attack: 7, defense: 4, health: 80, morale: 8, movement: 5, special_ability: "ambush", description: "Elite warriors trained in stealth and surprise attacks" },
       { army: army, name: "Jaguar Warriors", unit_type: "infantry", attack: 8, defense: 3, health: 85, morale: 9, movement: 4, special_ability: "ferocity", description: "Fearsome warriors who fight with animal-like ferocity" }
     ])
   when "Soviet Ski Troops"
     Unit.create!([
-      { army: army, name: "Sniper", unit_type: "ranged", attack: 9, defense: 2, health: 70, morale: 8, movement: 5, special_ability: "white_death", description: "Legendary sniper who can eliminate key targets" },
+      { army: army, name: "Sniper", unit_type: "archer", attack: 9, defense: 2, health: 70, morale: 8, movement: 5, special_ability: "white_death", description: "Legendary sniper who can eliminate key targets" },
       { army: army, name: "Ski Troops", unit_type: "infantry", attack: 6, defense: 4, health: 80, morale: 8, movement: 7, special_ability: "winter_mobility", description: "Specialized troops who excel in winter conditions" },
       { army: army, name: "Partisans", unit_type: "infantry", attack: 5, defense: 3, health: 75, morale: 9, movement: 6, special_ability: "guerrilla_warfare", description: "Irregular fighters who use hit-and-run tactics" }
     ])
   when "Spartan Phalanx"
     Unit.create!([
-      { army: army, name: "Spartan King", unit_type: "commander", attack: 4, defense: 6, health: 100, morale: 10, movement: 3, special_ability: "stand_firm", description: "Unyielding commander who never retreats" },
+      { army: army, name: "Spartan King", unit_type: "support", attack: 4, defense: 6, health: 100, morale: 10, movement: 3, special_ability: "stand_firm", description: "Unyielding commander who never retreats" },
       { army: army, name: "Spartan Hoplites", unit_type: "infantry", attack: 6, defense: 8, health: 95, morale: 10, movement: 2, special_ability: "phalanx_formation", description: "Unbreakable heavy infantry with massive shields" },
       { army: army, name: "Helot Skirmishers", unit_type: "infantry", attack: 4, defense: 3, health: 70, morale: 6, movement: 4, special_ability: "harassment", description: "Light infantry that supports the phalanx" }
     ])
   when "Carthaginian Army"
     Unit.create!([
-      { army: army, name: "Hannibal", unit_type: "commander", attack: 5, defense: 5, health: 100, morale: 9, movement: 4, special_ability: "tactical_genius", description: "History's greatest tactician who outmaneuvered Rome" },
+      { army: army, name: "Hannibal", unit_type: "support", attack: 5, defense: 5, health: 100, morale: 9, movement: 4, special_ability: "tactical_genius", description: "History's greatest tactician who outmaneuvered Rome" },
       { army: army, name: "Numidian Cavalry", unit_type: "cavalry", attack: 7, defense: 4, health: 80, morale: 8, movement: 8, special_ability: "hit_and_run", description: "Lightning-fast cavalry from North Africa" },
       { army: army, name: "Gallic Warriors", unit_type: "infantry", attack: 8, defense: 3, health: 85, morale: 7, movement: 4, special_ability: "feral_charge", description: "Fierce warriors who fight with wild abandon" },
-      { army: army, name: "War Elephants", unit_type: "cavalry", attack: 10, defense: 6, health: 120, morale: 8, movement: 3, special_ability: "trample", description: "Terrifying beasts that crush enemy formations" }
+      { army: army, name: "War Elephants", unit_type: "cavalry", attack: 10, defense: 6, health: 100, morale: 8, movement: 3, special_ability: "trample", description: "Terrifying beasts that crush enemy formations" }
     ])
   when "Norman Knights"
     Unit.create!([
-      { army: army, name: "Duke William", unit_type: "commander", attack: 5, defense: 5, health: 100, morale: 9, movement: 5, special_ability: "inspiring_leadership", description: "Conqueror who united Normandy and England" },
+      { army: army, name: "Duke William", unit_type: "support", attack: 5, defense: 5, health: 100, morale: 9, movement: 5, special_ability: "inspiring_leadership", description: "Conqueror who united Normandy and England" },
       { army: army, name: "Norman Knights", unit_type: "cavalry", attack: 9, defense: 6, health: 95, morale: 8, movement: 6, special_ability: "cavalry_charge", description: "Heavy cavalry that breaks enemy lines" },
-      { army: army, name: "Breton Archers", unit_type: "ranged", attack: 6, defense: 2, health: 70, morale: 7, movement: 4, special_ability: "suppressive_fire", description: "Skilled archers who provide covering fire" }
+      { army: army, name: "Breton Archers", unit_type: "archer", attack: 6, defense: 2, health: 70, morale: 7, movement: 4, special_ability: "suppressive_fire", description: "Skilled archers who provide covering fire" }
     ])
   when "Zulu Impi"
     Unit.create!([
-      { army: army, name: "Shaka Zulu", unit_type: "commander", attack: 5, defense: 4, health: 100, morale: 10, movement: 5, special_ability: "buffalo_horn", description: "Revolutionary commander who transformed African warfare" },
+      { army: army, name: "Shaka Zulu", unit_type: "support", attack: 5, defense: 4, health: 100, morale: 10, movement: 5, special_ability: "buffalo_horn", description: "Revolutionary commander who transformed African warfare" },
       { army: army, name: "Zulu Warriors", unit_type: "infantry", attack: 7, defense: 4, health: 85, morale: 9, movement: 5, special_ability: "buffalo_formation", description: "Disciplined warriors using the buffalo horn tactic" },
       { army: army, name: "Zulu Skirmishers", unit_type: "infantry", attack: 5, defense: 3, health: 75, morale: 8, movement: 6, special_ability: "encirclement", description: "Fast-moving units that flank the enemy" }
     ])
